@@ -1,0 +1,174 @@
+@import '../../app.component.scss';
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+ol, ul {
+  margin: 0px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.wrapper {
+  background-color:  $color3;
+  padding-right: 24px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100vw;
+}
+
+.footer_column_item_title {
+  margin: 0;
+  margin-left: 5px;
+  font-size: 1em;
+  font-style: italic;
+}
+
+.footer_column_item_title:last-child {
+  margin: 3px 0;
+}
+
+.footer_social-networks-item {
+  width: 100px;
+  height: auto;
+}
+
+.social-media {
+  margin: 0px;
+  padding: 0px;
+  justify-content: space-around;
+  align-items: start ;
+  img {
+    width: 18px;
+  }
+}
+
+.layout {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0;
+  padding: 10px 0;
+  list-style: none;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.layout_item {
+  box-sizing: border-box;
+  vertical-align: top;
+  width: 100%;
+  padding-left: 24px;
+  font-size: 1rem;
+  > div {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.layout_item:first-child {
+  display: none;
+}
+
+.layout_item:last-child {
+
+  ol {
+    display: flex;
+    gap: 10px;
+  }
+
+}
+
+.infos-pratique {
+  display: none;
+}
+
+img {
+  width: 25px;
+  border: solid 2px transparent;
+  margin: 2px;
+}
+
+.lang-selected {
+  border: solid 2px white;
+  margin: 2px;;
+}
+
+a {
+  color: black;
+}
+
+.footer_copyright {
+  display: none;
+}
+
+@media screen and (min-width: 800px) {
+
+  .list-inline {
+
+    display: flex;
+    gap: 20px;
+
+  }
+
+  .layout_item:first-child {
+    display: block;
+  }
+
+  .social-media {
+    margin: 0px;
+    padding: 5px;
+    justify-content: space-around;
+    align-items: start ;
+    img {
+      width: 35px;
+    }
+  }
+
+  img {
+    width: 40px;
+    border: solid 2px transparent;
+    margin: 2px;
+  }
+
+  .infos-pratique {
+    display: contents;
+  }
+
+  .footer_copyright {
+    margin-top: 1px;
+    padding-right: 10px;
+    background-color: $color3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer_copyright_content {
+    font-size: .875rem;
+    padding: 6px 0;
+  }
+
+  .footer_column_item_title {
+    margin: 3px 0;
+    font-size: 1.1em;
+    font-style: italic;
+  }
+
+  .layout_item:last-child .footer_column_item_title {
+    margin: 3px 16px;
+  }
+
+  .footer_column {
+    display: flex;
+    justify-content: center;
+  }
+
+}

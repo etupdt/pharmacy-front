@@ -1,0 +1,17 @@
+
+<ion-content *ngIf="getProductsFromService">
+  <h2>Les meilleurs produits de beauté, santé et bien-être</h2>
+  <ion-list>
+    <ion-item
+      *isadmin="getRole"
+      lines="none"
+    >
+      <ion-button slot="end" (click)="addProduct()">Ajouter</ion-button>
+    </ion-item>
+    <div>
+      <div *ngFor="let product of (getProductsFromService | filterProduct:getRefresh)">
+        <app-product-card [productCard]="product" [displayIcon]="''"></app-product-card>
+      </div>
+    </div>
+  </ion-list>
+</ion-content>

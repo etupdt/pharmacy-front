@@ -1,0 +1,111 @@
+
+@import '../../app.component.scss';
+
+ion-content {
+
+  img {
+    box-shadow: 10px 5px 10px lightgray;
+    border-radius: 8px;
+  }
+
+  --padding-top: 70px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 1px 5px;
+
+  article {
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 10px;
+    display: flex;
+
+    ul {
+      width: 100%;
+      padding-inline-start: 25px;
+    }
+
+    .content {
+
+      p {
+        width: 100%;
+        padding-left: 0;
+      }
+
+    }
+
+  }
+
+}
+
+.opinion { // JE N'AI PAS TROUVÉ ENCORE COMMENT AJOUTER LES ETOILES //
+  height: 50px;
+//  display: flex;
+  display: none;
+  justify-content: center;
+  text-align: center;
+  margin: 10px auto;
+  p {
+    display: block;
+    padding: 3px;
+  }
+}
+// END - Mobile first style
+
+@media screen and (min-width: 800px) {
+
+
+  ion-content {
+
+    article {
+
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+
+      margin: 30px;
+      display: flex;
+
+      li {
+        width: 320px;
+
+      }
+
+      .content {
+
+        p {
+          width: 280px;
+          padding: 30px;
+        }
+
+      }
+
+    }
+
+    article:first-child, article:last-child {
+      flex-direction: row;
+    }
+
+  }
+
+  .events {
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px auto;
+  }
+
+  .opinion {
+    height: 100px;
+    width: 400px;
+    margin: 30px auto;
+    p {
+      display: block;
+      padding-top: 20px;
+      font-size: small;
+    }
+  }
+}

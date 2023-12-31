@@ -1,0 +1,61 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">< Retour</ion-button>
+    </ion-buttons>
+    <ion-title>{{getAuthenticatedEmail ? 'Déconnexion' : 'Connexion'}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen [formGroup]="loginForm">
+  <div>
+    <ion-list>
+      <ion-item lines="none">
+        <h3>{{
+          getAuthenticatedEmail ?
+            'Confirmez la déconnexion' :
+            'Veuillez saisir vos identifiants'
+          }}
+        </h3>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          formControlName="email"
+          label="Email"
+          labelPlacement="stacked"
+          placeholder="Email"
+          fill="solid"
+          type="email"
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          formControlName="password"
+          label="Password"
+          labelPlacement="stacked"
+          placeholder="Password"
+          fill="solid"
+          type="password"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+          formControlName="confirmpassword"
+          label="Confirme password"
+          labelPlacement="stacked"
+          placeholder="Password"
+          fill="solid"
+          type="password"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button (click)="connect()">{{getAuthenticatedEmail ? 'Déconnexion' : 'Connexion'}}</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

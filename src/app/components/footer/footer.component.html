@@ -1,0 +1,91 @@
+
+  <footer class="footer">
+      <div class="wrapper">
+          <div class="layout">
+              <div class="layout_item">
+                  <div class="footer_column">
+                      <div class="footer_column_item">
+                       <div class="footer_column_item_title">Sommaire</div>
+                          <ol class="footer_info-links">
+                            <li *ngFor="let onglet of onglets; let i = index;" class="footer_info-link">
+                              <a *ngIf="i < 3" routerDirection="root" [routerLink]="[onglet.path]" href="#">{{ 'app.' + onglet.path | translate }}</a>
+                            </li>
+                         </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="layout_item">
+                <div class="footer_column">
+                    <div class="footer_column_item">
+                        <div class="footer_column_item_title u-margin-bottom-small infos-pratique">Infos pratiques</div>
+<!--                        <ol class="footer_info-links infos-pratique">
+                            <li class="footer_info-link">
+                                <a href="#" title="L'équipe">L'équipe</a>
+                            </li>
+                            <li class="c-footer__info-link">
+                                <a href="#" title="Utilisation des cookies">Utilisation des cookies</a>
+                            </li>
+                            <li class="c-footer__info-link">
+                                <a routerDirection="root" [routerLink]="['Contact']" href="#" title="Contactez-nous">Contactez-nous</a>
+                            </li>
+                        </ol>-->
+                        <div class="footer_column_item_title u-margin-bottom-small">Langue</div>
+                        <img
+                          *ngFor="let langage of langages"
+                          src="assets/images/{{langage}}.png" alt=""
+                          (click)="setSelectedLangage(langage)"
+                          [ngClass]="langage === selectedLangage ? 'lang-selected' : ''"
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="layout_item">
+                <div class="footer_column">
+                    <div class="footer_column_item">
+                        <div class="footer_column_item_title">
+                            Suivez-nous sur
+                        </div>
+                        <ol class="list-inline">
+                            <li class="social-media">
+                                <a target="_blank" class="footer_social-networks-item" href="https://www.facebook.com/pharmacie-de-la-mairie.suisse/" title="Pharmacie de la Mairie Facebook">
+                                  <img src="assets/images/facebook.png" alt="">
+                                </a>
+                            </li>
+                            <li class="social-media">
+                              <a target="_blank" class="footer_social-networks-item" href="https://www.instagram.com/pharmacie-de-la-mairie.ch_nowaste/" title="Pharmacie de la Mairie Instagram">
+                                <img src="assets/images/instagram.png" alt="">
+                              </a>
+                            </li>
+                            <li class="social-media">
+                                <a target="_blank" class="footer_social-networks-item" href="https://twitter.com/pharmacie-de-la-mairie.ch" title="Pharmacie de la Mairie Twitter">
+                                  <img src="assets/images/twitter.png" alt="">
+                                </a>
+                            </li>
+                            <li class="social-media">
+                                <a target="_blank" class="footer_social-networks-item" href="https://www.pinterest.fr/pharmacie-de-la-mairie.ch/" title="Pharmacie de la Mairie Pinterest">
+                                  <img src="assets/images/pinterest.png" alt="">
+                                </a>
+                            </li>
+                        </ol>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </footer>
+  <div class="footer_copyright">
+    <div class="footer_copyright_content">
+        <ul class="footer_copyright_items">
+            <li>
+                ©2023 pharmacie-de-la-mairie.ch
+            </li>
+            <li>
+                <a href="#">Conditions générales d'utilisation</a>
+            </li>
+            <li>
+                <a href="#">Mentions légales</a>
+            </li>
+            <li>* service de mise en relation proposée par pharmacie-de-la-mairie.ch</li>
+        </ul>
+    </div>
+  </div>

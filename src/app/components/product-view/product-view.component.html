@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">< Retour</ion-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-item lines="none" slot="end" (click)="showCart()">
+      <ion-icon
+        aria-hidden="true"
+        [src]="'assets/icon/caddy.svg'"
+      ></ion-icon>
+      <ion-label>{{getCartTotalSize}}</ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen class="ion-padding">
+  <div>
+    <ion-item lines="none" position="stacked" class="product-name ion-text-wrap">{{productView.getProductName}}</ion-item>
+    <ion-img
+      *ngIf="productView.getImagePath !== ''"
+      src="{{
+        productView.getImagePath.indexOf('data:image') === 0
+          ? productView.getImagePath
+          : backendImages + '/products/' + productView.getImagePath}}" alt=""
+    ></ion-img>
+    <p position="floating" class="product-description ion-text-wrap">{{productView.getDescription}}</p>
+    <ion-label position="floating" class="product-price">{{productView.getPrice | number: '1.2-2'}}  €</ion-label>
+    <ion-button (click)="addProductToCart(productView)">Ajouter</ion-button>
+  </div>
+</ion-content>
+

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">< Retour</ion-button>
+    </ion-buttons>
+    <ion-title>Panier</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let detail of getCart.detail">
+      <ion-img
+        src="{{backendImages + '/products/' + detail.product.getImagePath}}" alt="">
+      </ion-img>
+      <div class="cart-product">
+        <div  class="product-title">
+          <h3>{{detail.product.getProductName}}</h3>
+          <ion-icon
+            aria-hidden="true"
+            [ios]="'trash-outline'"
+            [md]="'trash-sharp'"
+            (click)="deleteCartProduct(detail.product)"
+          ></ion-icon>
+        </div>
+        <p class="product-description">{{detail.product.getDescription}}</p>
+        <div class="cart-product">
+          <p class="product-price">
+            {{detail.qte}} x {{detail.product.getPrice | number: '1.2-2'}}
+            = {{detail.qte * detail.product.getPrice | number: '1.2-2'}} €
+          </p>
+        </div>
+      </div>
+    </ion-item>
+    <ion-item>
+      <div class="cart-product">
+        <p class="product-price">
+          Total : {{getCartTotal() | number: '1.2-2'}} €
+        </p>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-button (click)="createCommand()">Commander</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

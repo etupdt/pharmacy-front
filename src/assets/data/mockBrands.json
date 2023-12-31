@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "brandName": "ZZZQUIL",
+    "imagePath": "bioderma.png"
+  },
+  {
+    "id": 2,
+    "brandName": "CERAVE",
+    "imagePath": "avene.png"
+  },
+  {
+    "id": 3,
+    "brandName": "ISDIN",
+    "imagePath": "oenobiol.png"
+  },
+  {
+    "id": 4,
+    "brandName": "VICHY",
+    "imagePath": "nuxe.png"
+  },
+  {
+    "id": 5,
+    "brandName": "HYLO",
+    "imagePath": "svr.png"
+  }
+]

@@ -1,0 +1,54 @@
+
+<ion-content>
+  <ion-list>
+      <ion-card *ngFor="let command of commands" class="command-line" expand="block">
+        <h4>Commande n° {{command.getId}} du {{command.getPaymentDate}}</h4>
+        <ion-card-content>
+          <p>Client : {{command.getClient.getFirstName}} {{command.getClient.getLastName}}</p>
+          <p>Etat : {{states[command.getCommandState]}}</p>
+          <table>
+            <tr>
+              <th></th>
+              <th class=""></th>
+              <th class="number">Qté.</th>
+              <th class="number">Prix</th>
+              <th class="number">Total</th>
+            </tr>
+            <ng-container *ngFor="let dispatch of command.getDispatches">
+              <tr class="space-line">
+                <td colspan="5">Envoi du : {{dispatch.getDispatchDate}}</td>
+              </tr>
+              <ng-container *ngFor="let dispatchLine of dispatch.getDispatchLines">
+                <tr class="mobile line1">
+                  <td></td>
+                  <td colspan="4" class="cadre">{{dispatchLine.getProduct.getProductName}}</td>
+                </tr>
+                <tr class="mobile line2">
+                  <td></td>
+                  <td class="cadre libelle"></td>
+                  <td class="cadre number qte">{{dispatchLine.getQuantity}}</td>
+                  <td class="cadre number price">{{dispatchLine.getPayedPrice | number: '1.2-2'}} €</td>
+                  <td class="cadre number price">{{dispatchLine.getQuantity * dispatchLine.getPayedPrice | number: '1.2-2'}} €</td>
+                </tr>
+                <tr class="desktop">
+                  <td></td>
+                  <td class="cadre libelle">{{dispatchLine.getProduct.getProductName}}</td>
+                  <td class="cadre number qte">{{dispatchLine.getQuantity}}</td>
+                  <td class="cadre number price">{{dispatchLine.getPayedPrice | number: '1.2-2'}} €</td>
+                  <td class="cadre number price">{{dispatchLine.getQuantity * dispatchLine.getPayedPrice | number: '1.2-2'}} €</td>
+                </tr>
+              </ng-container>
+            </ng-container>
+            <tr>
+              <td class="space-line" colspan="5"></td>
+            </tr>
+          <tr>
+              <td colspan="2"></td>
+              <td>Total :</td>
+              <td colspan="2" class="cadre number price total">{{getTotalPriceCommand(command.getId) | number: '1.2-2'}} €</td>
+            </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
+  </ion-list>
+</ion-content>

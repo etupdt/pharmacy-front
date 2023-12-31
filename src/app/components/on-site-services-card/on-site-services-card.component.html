@@ -1,0 +1,73 @@
+<div>
+  <div
+    *isemployee="getRole"
+    [ngClass]="imageEditing === -1 || imageEditing === onSiteServiceCard.getId ? '' : 'masked'"
+  ></div>
+  <ion-card *ngIf="onSiteServiceCard">
+    <img
+      src="{{ imageToDisplay }}" alt="Selectionnez une image"
+      (click)="editImage();$event.stopPropagation()"
+    />
+    <ion-list class="{{imageEditing !== onSiteServiceCard.getId ? '' : 'hover'}}">
+      <ion-item lines="none">
+        <ion-card-title class="ion-text-wrap">
+          <input type="text"
+            [(ngModel)]="name"
+            [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
+            placeholder="Nom de la prestation"
+            (ngModelChange)="checkIsUpdated()"
+          >
+        </ion-card-title>
+        <div *ngIf="imageEditing === onSiteServiceCard.getId" class="div-icon">
+          <ion-icon name="refresh-outline"
+            *isadmin="getRole"
+            [ngClass]="isUpdated ? '' : 'cache'"
+            slot="end"
+            (click)="reinitOnSiteService()"
+          ></ion-icon>
+          <ion-icon
+            *isadmin="getRole"
+            [ngClass]="isUpdated ? '' : 'cache'"
+            slot="end"
+            name="pencil-outline"
+            (click)="saveOnSiteService()"
+          ></ion-icon>
+          <ion-icon
+            *isadmin="getRole"
+            slot="end"
+            name="trash-outline"
+            (click)="deleteOnSiteService()"
+          ></ion-icon>
+        </div>
+      </ion-item>
+      <textarea class="card-description {{imageEditing !== onSiteServiceCard.getId ? '' : 'hover'}}"
+        [(ngModel)]="description"
+        [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
+        (ngModelChange)="checkIsUpdated()"
+      ></textarea>
+      <div class="card-tarif">
+        <span class="card-price">&nbsp;€</span>
+        <input type="text"
+          [ngModel]="priceToDisplay"
+          class="card-price {{imageEditing !== onSiteServiceCard.getId ? '' : 'hover'}}"
+          [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
+          (ngModelChange)="priceToDisplay=$event; checkIsUpdated()"
+        >
+        <span class="card-duree-unit">&nbsp;minutes&nbsp;=> </span>
+        <input
+          class="card-duree-value {{imageEditing !== onSiteServiceCard.getId ? '' : 'hover'}}"
+          type="text" inputmode="numeric"
+          [(ngModel)]="duree"
+          [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
+          (ngModelChange)="checkIsUpdated()"
+        >
+    </div>
+    </ion-list>
+  </ion-card>
+  <app-on-site-service
+    *ngIf="getRole >= 3 && imageEditing === onSiteServiceCard.getId"
+    [displayedImage]="imagePath"
+    (selectedImage)="onSelectImage($event)"
+    [urlImages]="backendImages + 'onsiteservices/'"
+    ></app-on-site-service>
+</div>

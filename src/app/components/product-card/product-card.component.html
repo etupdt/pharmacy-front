@@ -1,0 +1,32 @@
+<ion-card expand="block" (click)="showDetail()">
+  <div
+    *isadmin="getRole"
+  >
+    <ion-icon
+      [ngClass]="displayIcon"
+      name="pencil-outline"
+      (click)="updateProduct();$event.stopPropagation()"
+    ></ion-icon>
+    <ion-icon
+      [ngClass]="displayIcon"
+      name="trash-outline"
+      (click)="deteteProduct(productCard.getId);$event.stopPropagation()"
+    ></ion-icon>
+  </div>
+  <ion-img
+    *ngIf="productCard.getImagePath !== ''"
+    src="{{
+      productCard.getImagePath.indexOf('data:image') === 0
+        ? productCard.getImagePath
+        : backendImages + '/products/' + productCard.getImagePath}}" alt=""
+  ></ion-img>
+  <ion-card-content>
+    <ion-card-title>{{productCard.getProductName}}</ion-card-title>
+    <ion-card-subtitle>{{productCard.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
+    <div>
+      <ion-button
+        (click)="addProductToCart(productCard);$event.stopPropagation()"
+      >Ajouter</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>

@@ -1,0 +1,146 @@
+<ion-app style="height:100vh">
+      <ion-toolbar>
+      </ion-toolbar>
+  <ion-content>
+    <ion-split-pane contentId="main-content">
+      <ion-menu menuId="menu" contentId="main-content" type="overlay">
+        <ion-header [translucent]="false">
+          <ion-toolbar>
+            <ion-title>Menu</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-item lines="none">
+          <ion-img
+            src="{{backendImages + '/logo.png'}}" alt="">
+          </ion-img>
+          <ion-list-header>Pharmacie du Pont</ion-list-header>
+        </ion-item>
+        <ion-note>pharmacie.dupont@test.fr</ion-note>
+        <ion-content>
+          <ion-list id="menu-list">
+            <ng-container *ngFor="let r of getRoutes; let i = index">
+              <ion-menu-toggle auto-hide="false" *ngIf="r.data">
+                <ion-item
+                  routerDirection="root"
+                  [routerLink]="[getMenuTabs[getMenuIndex].path + '/' + r.path]"
+                  lines="none"
+                  detail="false"
+                  class="{{getMenuTabs[getMenuIndex].option === i ? 'selected' : ''}}"
+                  (click)="getMenuTabs[getMenuIndex].option = i"
+                >
+                  <ion-icon aria-hidden="true" slot="start" [ios]="r.data!['icon'] + '-outline'" [md]="r.data!['icon'] + '-sharp'"></ion-icon>
+                  <ion-label>{{r.path}}</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            </ng-container>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item
+              lines="none"
+              detail="false"
+              (click)="showLogin()"
+            >
+                <ion-icon aria-hidden="true" slot="start" [ios]="'heart-outline'" [md]="'heart-sharp'"></ion-icon>
+                <ion-label>{{getAuthenticatedEmail ? 'Déconnexion' : 'Connexion'}}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+          <ion-title *ngIf="getActiveRoute === 'Produits'">Filtres</ion-title>
+          <ion-list id="brand-list" *ngIf="getActiveRoute === 'Produits'" class="filter-list">
+            <ion-label>Prix</ion-label>
+            <div class="price-slider">
+              <ion-range
+                aria-label="Dual Knobs Range"
+                [min]="getFilters[0].inf"
+                [max]="getFilters[0].sup"
+                [dualKnobs]="true"
+                [value]="{lower: getFilters[0].startValue, upper: getFilters[0].endValue}"
+                [pin]="true"
+                (ionChange)="onTerminalsPriceChange($event)"
+              ></ion-range>
+              <svg (click)="onResetPrice()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </div>
+            <ion-toggle
+              labelPlacement="end"
+              justify="start"
+              (ionChange)="checkBrands()"
+              [checked]="brandsChecked"
+              >Marques
+            </ion-toggle>
+            <ion-item *ngFor="let brand of getBrands; let i = index" lines="none">
+              <ion-toggle
+                labelPlacement="end"
+                justify="start"
+                (ionChange)="checkBrand(i)"
+                [checked]="brand.checked"
+              >
+              </ion-toggle>
+              <ion-img
+                src="{{backendImages + '/brands/' + brand.getImagePath}}" alt="">
+              </ion-img>
+            </ion-item>
+            <ion-toggle
+              labelPlacement="end"
+              justify="start"
+              (ionChange)="checkProductTypes()"
+              [checked]="productTypesChecked"
+              >Types
+            </ion-toggle>
+            <ion-item *ngFor="let productType of getProductTypes; let i = index" lines="none">
+              <ion-toggle
+                labelPlacement="end"
+                justify="start"
+                (ionChange)="checkType(i)"
+                [checked]="productType.checked"
+                >{{productType.productTypeString}}</ion-toggle>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ion-menu>
+      <ion-content id="main-content">
+        <ion-header [translucent]="false">
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-menu-button auto-hide="true"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>{{getRoutes[getMenuTabs[getMenuIndex].option].path}}</ion-title>
+            <ion-item slot="end" (click)="showCart()">
+              <ion-icon
+                aria-hidden="true"
+                [src]="'assets/icon/caddy.svg'"
+              ></ion-icon>
+              <ion-label>{{getCartTotalSize}}</ion-label>
+            </ion-item>
+          </ion-toolbar>
+        </ion-header>
+        <ion-router-outlet></ion-router-outlet>
+        <ion-tabs>
+          <ion-tab-bar slot="bottom">
+            <ion-tab-button tab="VisiteurMenu" (click)="navigateTo(0)">
+              <ion-icon name="play-circle"></ion-icon>
+              Visiteur
+            </ion-tab-button>
+            <ion-tab-button
+              *isclient="getRole"
+              tab="ClientMenu"
+              (click)="navigateTo(1)"
+            >
+              <ion-icon name="radio"></ion-icon>
+              Client
+            </ion-tab-button>
+            <ion-tab-button
+              *isemployee="getRole"
+              tab="AdminMenu"
+              (click)="navigateTo(2)"
+            >
+              <ion-icon name="library"></ion-icon>
+              Admin
+            </ion-tab-button>
+          </ion-tab-bar>
+        </ion-tabs>
+      </ion-content>
+    </ion-split-pane>
+  </ion-content>
+  <app-footer></app-footer>
+</ion-app>

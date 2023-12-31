@@ -1,0 +1,17 @@
+
+
+<ion-content>
+  <ion-list>
+    <div class="onsiteservice mat-elevation-z8" *ngFor="let evenement of evenements">
+      <ion-card>
+        <ion-img
+          src="{{evenement.photo}}" alt=""
+        ></ion-img>
+        <ion-card-content>
+          <ion-card-title class="ion-text-wrap">{{evenement.title}}</ion-card-title>
+          <p class="card-description">{{evenement.description}}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

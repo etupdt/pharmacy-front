@@ -1,0 +1,104 @@
+
+@import '../../app.component.scss';
+
+ion-content {
+
+  --padding-top: 70px;
+
+  div {
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    ion-list {
+
+      width: 100%;
+      margin:auto;
+
+      ion-item {
+
+        width: 70%;
+        margin: 10px auto;
+
+        ion-textarea {
+          height: 30vh;
+          --padding-start: 10px;
+        }
+
+        ion-button {
+          width: 40%;
+          height: 36px;
+          border: 0px;
+          border-radius: 5px;
+          text-align: center;
+          font-weight: bold;
+          margin: 20px auto;
+
+          --color: black;
+          --background: rgba(var(--ion-color-primary-rgb), 0.14);
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 750px) {
+
+  ion-content {
+
+    div {
+
+      height: initial;
+
+      ion-list {
+
+        ion-item {
+
+          width: 80%;
+
+          ion-textarea {
+            height: 50vh;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 550px) {
+
+  ion-content {
+
+    div {
+
+      ion-list {
+
+        ion-item {
+
+          width: 100%;
+
+          ion-textarea {
+            height: 55vh;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}

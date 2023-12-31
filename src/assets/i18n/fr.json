@@ -1,0 +1,17 @@
+{
+	"app.Accueil": "Accueil",
+	"app.Contact": "Contact",
+	"app.Evenements": "Evenements",
+	"app.Prestations": "Prestations",
+	"app.Produits": "Produits",
+	"app.Compte": "Compte",
+	"home-page.article1-p-1": "La pharmacie de la mairie a été fondée en 1866 à Montreux.",
+	"home-page.article1-p-2": "Au bénéfice d'un savoir-faire d'entreprise, acquis grâce à plus de dix ans d'expérience",
+	"home-page.article3-p-1": "Nous sommes à votre écoute et fournissons un service qui va au-delà de la simple vente, dans la plus grande discrétion et le respect du client.",
+	"home-page.events-li-1": "Soldes d'été, jusqu'à - 70 %",
+	"home-page.events-li-2": "5 euros offerts sur votre premier achat",
+	"home-page.events-li-3": "Offres spéciales sur les crèmes solaires",
+	"prestations.service.Manucure.h3": "Manucure",
+	"prestations.service.Massage facial japonais.h3": "Massage facial japonais",
+	"prestations.service.Soins du visage.h3": "Soins du visage"
+}

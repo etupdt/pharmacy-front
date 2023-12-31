@@ -1,0 +1,95 @@
+
+<ion-content *ngIf="clientForm" [formGroup]="clientForm">
+  <div>
+    <ion-list>
+      <ion-item lines="none">
+        <h3>Saisissez vos données personnelles</h3>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="email"
+          label="Email"
+          labelPlacement="stacked"
+          placeholder="Email"
+          fill="solid"
+          type="email"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="firstname"
+          label="Prénom"
+          labelPlacement="stacked"
+          placeholder="Prénom"
+          fill="solid"
+          type="text"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="lastname"
+          label="Nom"
+          labelPlacement="stacked"
+          placeholder="Nom"
+          fill="solid"
+          type="text"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="address1"
+          label="Adresse"
+          labelPlacement="stacked"
+          placeholder="Adresse"
+          fill="solid"
+          type="text"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="address2"
+          label="Complément d'adresse"
+          labelPlacement="stacked"
+          placeholder="Complément d'adresse"
+          fill="solid"
+          type="text"
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="zip"
+          label="Code postal"
+          labelPlacement="stacked"
+          placeholder="Code postal"
+          fill="solid"
+          type="number"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          formControlName="locality"
+          label="Localité"
+          labelPlacement="stacked"
+          placeholder="Localité"
+          fill="solid"
+          type="text"
+          required
+          clearInput
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button (click)="saveClient()">Enregistrer</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

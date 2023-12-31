@@ -1,0 +1,78 @@
+
+@import '../../app.component.scss';
+
+.return-button {
+  width: 80px;
+  margin: 10px;
+}
+
+ion-content {
+
+  z-index: -5;
+
+  div {
+
+    display: flex;
+    flex-direction: column;
+    --padding-start: 0;
+    --inner-pdding-end: 0;
+    padding: 6px;
+
+    .product-name {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    ion-img {
+      height: 260px;
+      margin: auto;
+    }
+
+    .product-description {
+      text-align: center;
+      margin: 10px auto;
+    }
+
+    .product-price {
+      text-align: center;
+      margin: auto;
+      margin-bottom: 20px;
+      color: rgb(243, 63, 171);
+      font-size:x-large;
+      font-weight: 550;
+    }
+
+    ion-button {
+
+      width: 50%;
+      height: 36px;
+      border: 0px;
+      border-radius: 5px;
+      margin: 20px auto;
+      text-align: center;
+      font-weight: bold;
+
+      --color: black;
+      --background: rgba(var(--ion-color-primary-rgb), 0.14);
+
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+
+  ion-content {
+
+    div {
+
+      .product-name, .product-description {
+        font-size: 1rem;
+      }
+
+    }
+
+  }
+
+}

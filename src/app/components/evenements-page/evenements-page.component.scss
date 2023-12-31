@@ -1,0 +1,148 @@
+
+@import '../../app.component.scss';
+
+.evenements-page .evenement-item{margin-bottom:3em;}
+.evenements-page .breadcrump{margin:2em auto auto 2em ;}
+//.content{margin:6em auto 0 ;}
+.evenement-description  { & img {margin-right: 2 em;width:200px;height:auto; border-radius: 8px;}
+                          & p { max-width: 40em;}}
+
+ion-content {
+
+  ion-card {
+    box-shadow: 10px 5px 10px lightgray;
+    border-radius: 8px;
+    border: solid 1px lightgray;
+  }
+
+//  --background: var(--ion-color-primary-bkg);
+  --padding-top: 70px;
+
+  ion-list {
+
+//    --background: var(--ion-color-primary-bkg);
+
+    width: 100%;
+    margin:auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    div {
+
+      width: 100%;
+
+      ion-card {
+
+        display: flex;
+        flex-direction: row;
+        margin: 20px;
+        border-radius: 8px;
+        font-size: 1em;
+
+        ion-img {
+          border-radius: 8px 0 0 8px;
+        }
+
+        ion-card-content {
+
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          min-height: 100%;
+          width: 70%;
+
+          ion-card-title {
+            margin: 10px;
+            margin-top: 5px;
+          }
+
+          p {
+            margin: 0 10px;
+          }
+
+          .card-tarif {
+
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: right;
+
+            .card-price {
+              color: rgb(243, 63, 171);
+              font-weight: 550;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 750px) {
+
+  ion-content {
+
+    ion-list {
+
+      div {
+
+        ion-card {
+
+          flex-direction: column;
+
+          ion-img {
+
+            width: 80%;
+            margin: auto;
+
+          }
+
+          ion-card-content {
+
+            width: 100%;
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 550px) {
+
+  ion-content {
+
+    ion-list {
+
+      div {
+
+        ion-card {
+
+          ion-img {
+
+            width: 100%;
+            margin: 0;
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}

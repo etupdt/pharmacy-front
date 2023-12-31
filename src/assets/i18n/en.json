@@ -1,0 +1,17 @@
+{
+	"app.Accueil": "Home",
+	"app.Contact": "Contact",
+	"app.Evenements": "Events",
+	"app.Prestations": "Benefits",
+	"app.Produits": "Products",
+	"app.Compte": "Account",
+	"home-page.article1-p-1": "The town hall pharmacy was founded in 1866 in Montreux.",
+	"home-page.article1-p-2": "With the benefit of a business know-how, acquired thanks to more than ten years of experience",
+	"home-page.article3-p-1": "We listen to you and provide a service that goes beyond simple sales, with the utmost discretion and respect for the customer.",
+	"home-page.events-li-1": "Summer sales, up to -70%",
+	"home-page.events-li-2": "5 euros offered on your first purchase",
+	"home-page.events-li-3": "Special offers on sun creams",
+	"prestations.service.Manucure.h3": "Manicure",
+	"prestations.service.Massage facial japonais.h3": "Japanese facial massage",
+	"prestations.service.Soins du visage.h3": "Facial care"
+}

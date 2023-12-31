@@ -1,0 +1,25 @@
+
+<ion-content [formGroup]="contactForm">
+  <div>
+    <ion-list>
+      <ion-item>
+        <h3>Saisissez votre message</h3>
+      </ion-item>
+      <ion-item>
+        <ion-textarea
+          formControlName="message"
+          label="Message"
+          labelPlacement="stacked"
+          fill="solid"
+          placeholder="Message"
+          required
+          clearInput
+        ></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="sendMail()">Envoyer</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+

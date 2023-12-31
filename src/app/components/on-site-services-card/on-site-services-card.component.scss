@@ -1,0 +1,167 @@
+
+.cache {
+  display: none;
+}
+
+.masked {
+  position: absolute;
+  width: 100%;
+  height: 210px;
+  background-color: rgba(255,255,255,0.75);
+  z-index: 100;
+}
+
+.hover {
+
+  input:focus, textarea:focus {
+    outline: none;
+    background-color: #f2f2f2;
+  }
+
+  input:hover, textarea:hover {
+    outline: none;
+    background-color: #f2f2f2;
+  }
+
+}
+
+app-on-site-service {
+  margin-bottom: 40px;
+}
+
+ion-card {
+
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  font-size: 1em;
+  box-shadow: 10px 5px 10px lightgray;
+  border-radius: 8px;
+  border: solid 1px lightgray;
+
+  img {
+
+    border-radius: 8px 0 0 8px;
+    height: 210px;
+//    min-width: 300px;
+
+  }
+
+  ion-list {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    width: 100%;
+    padding: 10px;
+
+    ion-card-title {
+      margin: 10px;
+      width: 100%;
+    }
+
+    input {
+
+      border: none;
+      width: 100%;
+      background-color: transparent;;
+
+    }
+
+    textarea {
+
+      border: none;
+      height: 110px;
+      background-color: transparent;;
+
+    }
+
+    p {
+      margin: 0 10px;
+    }
+
+    span {
+      margin: auto 0;
+      text-align: right;
+    }
+
+    .card-tarif {
+
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: right;
+      margin-top: 10px;
+      text-align: right;
+
+      .card-duree-unit {
+        text-align: right;
+        width: 100px;
+        margin: auto 0;
+      }
+
+      .card-duree-value {
+        text-align: right;
+      }
+
+      .card-price {
+        color: rgb(243, 63, 171);
+        font-weight: 550;
+        max-width: 60px;
+        text-align: right;
+      }
+
+    }
+
+    .div-icon {
+
+      width: 120px;
+
+      ion-icon {
+        width: 30px;
+      }
+
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 750px) {
+
+  ion-card {
+
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+
+    img {
+      margin:auto;
+      border-radius: 8px;
+    }
+
+    ion-list {
+      width: 100%;
+    }
+
+  }
+
+}
+
+@media screen and (max-width: 550px) {
+
+  ion-card {
+
+    border-bottom: solid 2px lightgrey;
+    border-radius: 0px;
+    margin: 0;
+    padding: 10px 0;
+
+    img {
+      height: 210px;
+    }
+
+  }
+
+}
+
