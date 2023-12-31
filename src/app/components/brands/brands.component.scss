@@ -1,0 +1,56 @@
+
+@import '../../app.component.scss';
+
+ion-content {
+
+  ion-card {
+    box-shadow: 10px 5px 10px lightgray;
+    border-radius: 8px;
+  }
+
+//  --background: var(--ion-color-primary-bkg);
+  --padding-top: 70px;
+
+  ion-list {
+
+//    --background: var(--ion-color-primary-bkg);
+
+    align-content: start;
+    height: 100%;
+
+    width: 100%;
+    margin:auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    > ion-item {
+
+      width: 100%;
+
+      ion-button {
+
+        width: 20%;
+        height: 36px;
+        border: 0px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        margin: 20px auto;
+
+        --color: black;
+        --background: rgba(var(--ion-color-primary-rgb), 0.14);
+
+      }
+
+    }
+
+    div {
+
+      width: 100%;
+
+    }
+
+  }
+
+}

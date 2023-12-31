@@ -1,0 +1,36 @@
+
+<div class="brand">
+  <div class="image-setting">
+    <div class="div-cropper">
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [output]="'blob'"
+        [imageFile]="imageFile"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="68 / 25"
+        [resizeToWidth]="500"
+        [cropperMinWidth]="34"
+        [onlyScaleDown]="true"
+        [transform]="transform"
+        [roundCropper]="false"
+        [alignImage]="'left'"
+        [style.display]="showCropper ? null : 'none'"
+        format="webp"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded($event)"
+        (cropperReady)="cropperReady($event)"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+    </div>
+    <div lines="none" class="image-buttons">
+      <ion-icon name="arrow-up-outline" (click)="fileInput.click()"></ion-icon>
+      <input type="file" #fileInput (change)="fileChangeEvent($event)" hidden/>
+      <ion-icon name="pencil-outline" (click)="replaceImage()"></ion-icon>
+      <ion-icon name="add-circle-outline" (click)="zoomIn()"></ion-icon>
+      <ion-icon name="remove-circle-outline" (click)="zoomOut()"></ion-icon>
+      <ion-icon name="refresh-outline" (click)="reinitImage()"></ion-icon>
+      <ion-icon name="close-outline" (click)="cancel()"></ion-icon>
+    </div>
+  </div>
+</div>
+

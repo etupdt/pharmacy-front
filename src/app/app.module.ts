@@ -40,6 +40,9 @@ import { CropperComponent } from './components/cropper/cropper.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductViewComponent } from './components/product-view/product-view.component';
 import { ImagePipe } from './pipes/image.pipe';
+import { BrandComponent } from './components/brand/brand.component';
+import { BrandCardComponent } from './components/brand-card/brand-card.component';
+import { BrandsComponent } from './components/brands/brands.component';
 
 registerLocaleData(localeFr);
 
@@ -66,6 +69,9 @@ registerLocaleData(localeFr);
     IsClientDirective,
     OnSiteServicesCardComponent,
     OnSiteServiceComponent,
+    BrandsComponent,
+    BrandComponent,
+    BrandCardComponent,
     IsUpdatedPipe,
     CropperComponent,
     ProductCardComponent,

@@ -1,14 +1,15 @@
 import { NgIterable, Pipe, PipeTransform } from '@angular/core';
 import { OnSiteService } from '../entities/on-site-service';
+import { Entity } from '../entities/entity';
 
 @Pipe({
   name: 'isUpdated'
 })
 export class IsUpdatedPipe implements PipeTransform {
 
-  transform(value: OnSiteService[], ...args: unknown[]): OnSiteService[] {
+  transform(value: any[], ...args: unknown[]): any[] {
 
-    return value.sort((a, b) => a.getOnSiteServiceName < b.getOnSiteServiceName ? -1 : 1)
+    return value.sort((a, b) => a.getName < b.getName ? -1 : 1)
 
   }
 

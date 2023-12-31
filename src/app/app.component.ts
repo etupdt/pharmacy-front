@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   brandsChecked: boolean = false;
   productTypesChecked: boolean = false;
 
-  backendImages = environment.useBackendImages
+  backendImages = environment.useBackendApi + '/assets/images/'
 
   selectedLangage$!: string
 

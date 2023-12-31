@@ -14,6 +14,7 @@ import { CommandsComponent } from './components/commands/commands.component';
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 import { OnSiteServiceComponent } from './components/on-site-service/on-site-service.component';
 import { ProductViewComponent } from './components/product-view/product-view.component';
+import { BrandsComponent } from './components/brands/brands.component';
 
 const routes: Routes = [
   {
@@ -101,6 +102,13 @@ const routes: Routes = [
       {
         path: 'Commandes',
         component: CommandsComponent,
+        data: {
+          icon: 'mail',
+        }
+      },
+      {
+        path: 'Marques',
+        component: BrandsComponent,
         data: {
           icon: 'mail',
         }

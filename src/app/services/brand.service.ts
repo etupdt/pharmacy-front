@@ -1,16 +1,16 @@
 import { Injectable, signal } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Brand } from '../entities/brand';
-import { ProductType } from '../enums/product-type';
-import { ProductsType } from '../interfaces/products-type.interface';
-import mockBrands from '../../assets/data/mockBrands.json'
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BrandService {
+
+  refreshUpdate: number = 0
+  signalRefresUpdateUpdated = signal(this.refreshUpdate)
 
   brands: Brand[] = []
 
@@ -40,6 +40,52 @@ export class BrandService {
 
     return this.http.get(
       environment.useBackendApi + `/api/brands`,
+    )
+
+  }
+
+  putBrand(brand: Brand, image: string): Observable<any> {
+
+    const formData: FormData = new FormData();
+
+    formData.append('id', brand.getId.toString())
+    formData.append('brandName', brand.getBrandName)
+    formData.append('imagePath', image)
+
+    let headers = new HttpHeaders()
+    headers.append('Content-Type','multipart/form-data')
+
+    return this.http.put(
+      environment.useBackendApi + `/api/brands/${brand.getId}`,
+      formData,
+      { headers }
+    )
+
+  }
+
+  postBrand(brand: Brand, image: string): Observable<any> {
+
+    const formData: FormData = new FormData();
+
+    formData.append('id', brand.getId.toString())
+    formData.append('brandName', brand.getBrandName)
+    formData.append('imagePath', image)
+
+    let headers = new HttpHeaders()
+    headers.append('Content-Type','multipart/form-data')
+
+    return this.http.post(
+      environment.useBackendApi + `/api/brands`,
+      formData,
+      { headers }
+    )
+
+  }
+
+  deleteBrand(id: number): Observable<any> {
+
+    return this.http.delete(
+      environment.useBackendApi + `/api/brands/${id}`,
     )
 
   }

@@ -1,0 +1,51 @@
+<div>
+  <div
+    *isemployee="getRole"
+    [ngClass]="imageEditing === -1 || imageEditing === brandCard.getId ? '' : 'masked'"
+  ></div>
+  <ion-card *ngIf="brandCard">
+    <img
+      src="{{ imageToDisplay }}" alt="Selectionnez une image"
+      (click)="editImage();$event.stopPropagation()"
+    />
+    <ion-list class="{{imageEditing !== brandCard.getId ? '' : 'hover'}}">
+      <ion-item lines="none">
+        <ion-card-title class="ion-text-wrap">
+          <input type="text"
+            [(ngModel)]="name"
+            [disabled]="getRole < 3 || imageEditing !== brandCard.getId"
+            placeholder="Nom de la marque"
+            (ngModelChange)="checkIsUpdated()"
+          >
+        </ion-card-title>
+        <div *ngIf="imageEditing === brandCard.getId" class="div-icon">
+          <ion-icon name="refresh-outline"
+            *isadmin="getRole"
+            [ngClass]="isUpdated ? '' : 'cache'"
+            slot="end"
+            (click)="reinitBrand()"
+          ></ion-icon>
+          <ion-icon
+            *isadmin="getRole"
+            [ngClass]="isUpdated ? '' : 'cache'"
+            slot="end"
+            name="pencil-outline"
+            (click)="saveBrand()"
+          ></ion-icon>
+          <ion-icon
+            *isadmin="getRole"
+            slot="end"
+            name="trash-outline"
+            (click)="deleteBrand()"
+          ></ion-icon>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <app-brand
+    *ngIf="getRole >= 3 && imageEditing === brandCard.getId"
+    [displayedImage]="imagePath"
+    (selectedImage)="onSelectImage($event)"
+    [urlImages]="backendImages"
+    ></app-brand>
+</div>

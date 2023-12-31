@@ -1,0 +1,18 @@
+
+<ion-content>
+  <ion-list>
+    <ion-item
+      *isadmin="getRole"
+      lines="none"
+    >
+      <ion-button slot="end" (click)="addBrand()">Ajouter</ion-button>
+    </ion-item>
+    <div class="brand" *ngFor="let brand of getBrandsFromService | isUpdated:getRefreshUpdate">
+      <app-brand-card
+        [brandCard]="brand"
+        [imageEditing]="cardIdSelected"
+        (cardIdSelected)="onSelectCard($event)"
+      ></app-brand-card>
+    </div>
+  </ion-list>
+</ion-content>
