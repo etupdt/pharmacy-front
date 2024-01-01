@@ -1,11 +1,8 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { Product } from 'src/app/entities/product';
 import { ProductService } from 'src/app/services/product.service';
-import { BrandService } from 'src/app/services/brand.service';
-import { DisplayCart } from 'src/app/interfaces/displayCart.interface';
 import { environment } from 'src/environments/environment';
 import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
-import { ProductComponent } from '../product/product.component';
 import { ProductsType } from 'src/app/interfaces/products-type.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
@@ -21,7 +18,7 @@ export class ProductsComponent implements OnInit{
 
   product!: Product
 
-  backendImages = environment.useBackendImages
+  backendImages = environment.useBackendApi + '/assets/images/'
 
   refresh: number = 0
 
@@ -36,6 +33,7 @@ export class ProductsComponent implements OnInit{
 
   ngOnInit(): void {
 
+    console.log('init products')
     this.getProducts()
 
   }
@@ -57,7 +55,7 @@ export class ProductsComponent implements OnInit{
       brand: {
         id: 0
       },
-      imagePath: '',
+      imagePath: 'defaultProduct.webp',
       type: 0,
       preparationTime: 0,
       commandTime: 0,

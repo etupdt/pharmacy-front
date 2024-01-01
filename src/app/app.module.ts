@@ -10,7 +10,6 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { ProductsComponent } from './components/products/products.component';
 import { FilterProductPipe } from './pipes/filter-product.pipe';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { EvenementsPageComponent } from './components/evenements-page/evenements-page.component';
 import { OnSiteServicesComponent } from './components/on-site-services/on-site-services.component';
@@ -43,6 +42,8 @@ import { ImagePipe } from './pipes/image.pipe';
 import { BrandComponent } from './components/brand/brand.component';
 import { BrandCardComponent } from './components/brand-card/brand-card.component';
 import { BrandsComponent } from './components/brands/brands.component';
+import { ProductComponent } from './components/product/product.component';
+import { ButtonComponent } from './components/button/button.component';
 
 registerLocaleData(localeFr);
 
@@ -76,6 +77,7 @@ registerLocaleData(localeFr);
     CropperComponent,
     ProductCardComponent,
     ProductViewComponent,
+    ButtonComponent,
     ImagePipe
   ],
   imports: [

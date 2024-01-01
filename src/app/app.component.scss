@@ -10,6 +10,7 @@ ion-app {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: $color5;
 
   ion-toolbar {
     width: 100%;
@@ -19,7 +20,7 @@ ion-app {
   }
 
   > ion-content {
-    max-width: 1300px;
+    max-width: 1400px;
 
     ion-menu > ion-item {
       padding-top: 70px;

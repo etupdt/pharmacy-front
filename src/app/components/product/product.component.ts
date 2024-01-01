@@ -1,53 +1,50 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { InputCustomEvent, IonModal, ModalController, ToastController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { Product } from 'src/app/entities/product';
-import { DisplayCart } from 'src/app/interfaces/displayCart.interface';
-import { ProductService } from 'src/app/services/product.service';
-import { environment } from 'src/environments/environment';
-import { CartComponent } from '../cart/cart.component';
-import { Router } from '@angular/router';
+import { Dimensions, ImageCroppedEvent, ImageCropperComponent, ImageTransform, LoadedImage } from 'ngx-image-cropper';
 import { ImageService } from 'src/app/services/image.service';
-import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
-import { BrandService } from 'src/app/services/brand.service';
+import 'hammerjs';
+import { Product } from 'src/app/entities/product';
+import { InputCustomEvent } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent  implements OnInit {
+  @ViewChild(ImageCropperComponent) imageCropper: ImageCropperComponent | undefined;
+
+  displayedImage: string = "defaultProduct.webp"
+  @Output() selectedImage: EventEmitter<string> = new EventEmitter();
+
+  urlImages = environment.useBackendApi + '/assets/images/'
 
   product!: Product
-  brandSelectId!: number
-
-  backendImages = environment.useBackendImages
 
   showCropper = true;
   imageChangedEvent: any;
-  croppedImage: any = '';
-  imageURL: string = ''
   rotation = 0;
   scale = 1;
   transform: ImageTransform = {};
 
+  croppedImage: any = '';
   imageSaved: any
-  imageURLSaved: any
   imageFile: any
-  image: any
+  productService: any;
 
   fileChangeEvent(event: any): void {
     if (!event || event.target.files[0])
       this.imageFile = event.target.files[0]
-//      this.imageChangedEvent = event;
   }
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.blob;
   }
 
-  imageLoaded() {
-      this.showCropper = true;
+  imageLoaded(image: LoadedImage) {
+//    image.original.size.width = 400
+//    image.original.size.height = 300
+    this.showCropper = true;
   }
 
   zoomOut() {
@@ -74,99 +71,77 @@ export class ProductComponent implements OnInit {
       console.log('Load failed');
   }
 
-  constructor (
-    private productService: ProductService,
-    private toastController: ToastController,
-    private router: Router,
-    private imageService: ImageService,
-    private brandService: BrandService
-  ) {
-  }
+  constructor(
+    private imageService: ImageService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+    console.log('init product')
+    this.imageSaved = this.displayedImage
+
     if (!this.product) {
       this.product = new Product().deserialize(history.state)
-      this.brandSelectId = this.product.getBrand.getId
-      console.log(this.product.getBrand.getId)
     }
 
-    this.imageURLSaved = this.backendImages + '/products/' + this.product.getImagePath
-
-    if (this.product.getImagePath !== '') {
-      this.imageService.getImage( this.backendImages + '/products/' + this.product.getImagePath).subscribe({
-        next: (res: Blob) => {
-          this.imageFile = res
-          this.imageSaved = res
-          var reader = new FileReader();
-          reader.readAsDataURL(res);
-          reader.onload = () => {
-            this.image = reader.result as string
-          }
-        }
-      })
-    }
+    this.displayCropperImage()
 
   }
 
   replaceImage = () => {
-    var reader = new FileReader();
-    reader.readAsDataURL(this.croppedImage);
-    reader.onload = () => {
-      this.product.setImagePath = reader.result as string
-    }
-    this.refresh()
+
+    this.displayedImage = this.croppedImage
+
+    this.selectedImage.emit(this.displayedImage)
+
+    this.displayCropperImage()
+
   }
 
   reinitImage = () => {
-    this.imageFile = this.imageSaved
-    this.product.setImagePath = this.image
+
+    this.scale = 1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale
+    }
+
+    this.displayedImage = this.imageSaved
+
+    this.selectedImage.emit(this.imageSaved)
+
+    this.displayCropperImage()
+
   }
 
-  saveProduct = () => {
+  displayCropperImage = () => {
 
-    if (this.product.getId === 0) {
+    if (typeof this.displayedImage === 'string') {
 
-      this.productService.postProduct(this.product).subscribe({
-        next: (res: any) => {
-            this.presentToast('middle', 'La prestation a été créée', 800)
-            this.productService.products.push(new Product().deserialize(res))
-            this.router.navigate(['/VisiteurMenu/Produits'])
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
+      if (this.displayedImage === '') {
+        this.displayedImage = 'defaultProduct.webp'
+      }
+
+      this.imageService.getImage(this.urlImages + this.displayedImage).subscribe({
+        next: (res: Blob) => {
+          this.imageFile = res
         }
       })
 
     } else {
 
-      this.productService.putProduct(this.product).subscribe({
-        next: (res: any) => {
-            this.presentToast('middle', 'La prestation a été mise à jour', 800)
-            let index = this.productService.products.findIndex(onSiteService => onSiteService.getId === res.id)
-            this.productService.products[index].setProductName = res.productName
-            this.productService.products[index].setLabel = res.label
-            this.productService.products[index].setDescription = res.description
-            this.productService.products[index].setPrice = res.price
-            this.productService.products[index].setImagePath = res.imagePath
-            this.router.navigate(['/VisiteurMenu/Prestations'])
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+      this.imageFile = this.displayedImage
 
     }
 
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom', message: string, duration: number) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: duration,
-      position: position,
-    });
+  cancel = () => {
 
-    await toast.present();
+    this.reinitImage()
+
+    this.selectedImage.emit("")
+
   }
 
   onChangeName = (event: Event) => {
@@ -208,7 +183,5 @@ export class ProductComponent implements OnInit {
     this.productService.refreshUpdate++
     this.productService.signalRefresUpdateUpdated.set(this.productService.refreshUpdate)
   }
-
-  get getBrands() {return this.brandService.brands}
 
 }

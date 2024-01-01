@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DisplayCart } from '../interfaces/displayCart.interface';
 import { MailCommand } from '../interfaces/mail-command.interface';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Filter } from '../interfaces/filter.interface';
 import { ProductsType } from '../interfaces/products-type.interface';
 import { Product } from '../entities/product';
@@ -55,20 +55,50 @@ export class ProductService {
 
   }
 
-  putProduct(product: Product): Observable<any> {
+  putProduct(product: Product, image: string): Observable<any> {
+
+    const formData: FormData = new FormData();
+
+    formData.append('id', product.getId.toString())
+    formData.append('productName', product.getProductName)
+    formData.append('description', product.getDescription)
+    formData.append('price', product.getPrice.toString())
+    formData.append('preparationTime', product.getPreparationTime.toString())
+    formData.append('commandTime', product.getCommandTime.toString())
+    formData.append('deliveryTime', product.getDeliveryTime.toString())
+    formData.append('imagePath', image)
+
+    let headers = new HttpHeaders()
+    headers.append('Content-Type','multipart/form-data')
 
     return this.http.put(
       environment.useBackendApi + `/api/products/${product.getId}`,
-      product
+      formData,
+      { headers }
     )
 
   }
 
-  postProduct(product: Product): Observable<any> {
+  postProduct(product: Product, image: string): Observable<any> {
+
+    const formData: FormData = new FormData();
+
+    formData.append('id', product.getId.toString())
+    formData.append('productName', product.getProductName)
+    formData.append('description', product.getDescription)
+    formData.append('price', product.getPrice.toString())
+    formData.append('preparationTime', product.getPreparationTime.toString())
+    formData.append('commandTime', product.getCommandTime.toString())
+    formData.append('deliveryTime', product.getDeliveryTime.toString())
+    formData.append('imagePath', image)
+
+    let headers = new HttpHeaders()
+    headers.append('Content-Type','multipart/form-data')
 
     return this.http.post(
       environment.useBackendApi + `/api/products`,
-      product
+      formData,
+      { headers }
     )
 
   }

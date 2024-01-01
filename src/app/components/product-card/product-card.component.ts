@@ -1,11 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { Product } from 'src/app/entities/product';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
-import { ProductComponent } from '../product/product.component';
 import { ProductViewComponent } from '../product-view/product-view.component';
 
 @Component({
@@ -13,26 +12,40 @@ import { ProductViewComponent } from '../product-view/product-view.component';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss'],
 })
-export class ProductCardComponent  implements OnInit {
+export class ProductCardComponent  implements OnInit, OnChanges {
 
-  @Input() productCard!: Product
   @Input() displayIcon: string = 'cache'
 
-  backendImages = environment.useBackendImages
+  @Input() imageEditing: number = -1
+  @Input() productCard!: Product
+  @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
+
+  name: string = ''
+  description: string = ''
+  @Input() imagePath!: string
+  priceToDisplay!: string
+  duree: number = 0
+  imageToDisplay!: string
+
+  isUpdated: boolean = false
+
+  backendImages = environment.useBackendApi + '/assets/images/'
+  modalCtrl: any;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private productService: ProductService,
-    private modalCtrl: ModalController,
     private toastController: ToastController
   ) {
-    // effect(() => {
-    //   this.productService.signalRefresUpdateUpdated()
-    // });
   }
 
   ngOnInit() {
+    console.log('init product card')
+    this.reinitProduct()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
 
   }
 
@@ -62,21 +75,93 @@ export class ProductCardComponent  implements OnInit {
     }
   }
 
-  updateProduct = () => {
-    this.router.navigateByUrl('VisiteurMenu/Produit', {state: this.productCard})
+  editImage = () => {
+    if (this.getRole >= 3) {
+      if (this.imageEditing === this.productCard.getId)
+        this.cardIdSelected.emit(-1)
+      else
+        this.cardIdSelected.emit(this.productCard.getId)
+    }
   }
 
-  deteteProduct = (id: number) => {
+  saveProduct = () => {
 
-    this.productService.deleteProduct(id).subscribe({
+    this.productCard.setProductName = this.name
+
+    this.cardIdSelected.emit(-1)
+
+    const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
+
+    if (this.productCard.getId === 0) {
+
+      this.productService.postProduct(this.productCard, this.imagePath).subscribe({
+        next: (res: any) => {
+          this.presentToast('middle', 'La prestation a été créée', 800)
+          this.productCard = new Product().deserialize(res)
+          this.productService.products[index] = this.productCard
+          this.reinitProduct()
+          this.refresh()
+        },
+        error: (error: { error: { message: any; }; }) => {
+          this.presentToast('middle', error.error.message, 800)
+        }
+      })
+
+    } else {
+
+      this.productService.putProduct(this.productCard, this.imagePath).subscribe({
+        next: (res: any) => {
+          this.presentToast('middle', 'La prestation a été mise à jour', 800)
+          this.productService.products.splice(index, 1)
+          this.productCard = new Product().deserialize(res)
+          this.productService.products.push(this.productCard)
+          this.refresh()
+        },
+        error: (error: { error: { message: any; }; }) => {
+          this.presentToast('middle', error.error.message, 800)
+        }
+      })
+
+    }
+
+  }
+
+  reinitProduct = () => {
+
+    this.cardIdSelected.emit(-1)
+
+    this.name = this.productCard.getProductName
+    this.imagePath = this.productCard.getImagePath
+    this.setImageToDisplay = this.productCard.getImagePath
+
+    this.checkIsUpdated()
+
+  }
+
+  deleteProduct = () => {
+
+    const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
+
+    if (this.productCard.getId === 0) {
+      this.deleteInList(index)
+      return
+    }
+
+    this.productService.deleteProduct(this.productCard.getId).subscribe({
       next: (res: any) => {
         this.presentToast('middle', 'La prestation a été suprimée', 800)
-        this.productService.products = this.productService.products.filter(product => product.getId !== id)
+        this.deleteInList(index)
       },
         error: (error: { error: { message: any; }; }) => {
       }
     })
 
+  }
+
+  deleteInList = (index: number) => {
+    this.cardIdSelected.emit(-1)
+    this.productService.products.splice(index, 1)
+    this.refresh()
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string, duration: number) {
@@ -88,6 +173,38 @@ export class ProductCardComponent  implements OnInit {
 
     await toast.present();
   }
+
+  checkIsUpdated = () => {
+    this.isUpdated = this.productCard.getProductName !== this.name ||
+      this.productCard.getImagePath !== this.imagePath
+  }
+
+  onSelectImage = (image: string) => {
+
+    if (image === "") {
+
+      this.cardIdSelected.emit(-1)
+
+    } else {
+
+      this.imagePath = image
+
+      if (typeof image === 'string') {
+        this.setImageToDisplay = image
+      } else {
+        var reader = new FileReader();
+        reader.readAsDataURL(image as unknown as Blob);
+        reader.onload = () => {
+          this.imageToDisplay = reader.result as string
+        }
+      }
+
+      this.checkIsUpdated()
+
+    }
+  }
+
+  set setImageToDisplay (image: string) {this.imageToDisplay = image === 'defaultProduct.webp' ? this.backendImages + 'defaultProduct.webp' :  this.backendImages + '/products/' + image}
 
   refresh = () => {
     this.productService.refreshUpdate++

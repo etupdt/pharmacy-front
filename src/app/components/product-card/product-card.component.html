@@ -1,32 +1,34 @@
-<ion-card expand="block" (click)="showDetail()">
-  <div
-    *isadmin="getRole"
-  >
-    <ion-icon
-      [ngClass]="displayIcon"
-      name="pencil-outline"
-      (click)="updateProduct();$event.stopPropagation()"
+<ion-card expand="block">
+  <div *ngIf="imageEditing === productCard.getId" class="div-icon">
+    <ion-icon name="refresh-outline"
+      *isadmin="getRole"
+      [ngClass]="isUpdated ? '' : 'cache'"
+      slot="end"
+      (click)="reinitProduct();$event.stopPropagation()"
     ></ion-icon>
     <ion-icon
-      [ngClass]="displayIcon"
+      *isadmin="getRole"
+      [ngClass]="isUpdated ? '' : 'cache'"
+      slot="end"
+      name="pencil-outline"
+      (click)="saveProduct();$event.stopPropagation()"
+    ></ion-icon>
+    <ion-icon
+      *isadmin="getRole"
+      slot="end"
       name="trash-outline"
-      (click)="deteteProduct(productCard.getId);$event.stopPropagation()"
+      (click)="deleteProduct();$event.stopPropagation()"
     ></ion-icon>
   </div>
-  <ion-img
-    *ngIf="productCard.getImagePath !== ''"
-    src="{{
-      productCard.getImagePath.indexOf('data:image') === 0
-        ? productCard.getImagePath
-        : backendImages + '/products/' + productCard.getImagePath}}" alt=""
-  ></ion-img>
-  <ion-card-content>
-    <ion-card-title>{{productCard.getProductName}}</ion-card-title>
-    <ion-card-subtitle>{{productCard.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
-    <div>
-      <ion-button
-        (click)="addProductToCart(productCard);$event.stopPropagation()"
-      >Ajouter</ion-button>
-    </div>
-  </ion-card-content>
+  <img
+    src="{{ imageToDisplay }}" alt="Selectionnez une image"
+    (click)="editImage();$event.stopPropagation()"
+  />
+  <ion-card-title>{{productCard.getProductName}}</ion-card-title>
+  <ion-card-subtitle class="price">{{productCard.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
+  <app-button 
+    class="add-product"
+    [callback]="addProductToCart.bind(this, productCard)"
+    text="Ajouter"
+  ></app-button>
 </ion-card>

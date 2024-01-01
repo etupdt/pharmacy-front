@@ -1,5 +1,5 @@
 <ion-content>
-  <div>
+  <div class="views">
     <div>
       Aperçu carte liste produit
       <app-product-card [productCard]="product" [displayIcon]="'disable'"></app-product-card>
@@ -9,107 +9,43 @@
       <app-product-view [productView]="product"></app-product-view>
     </div>
   </div>
-  <div class="fields-product">
-      <ion-list>
-        <ion-item lines="none">
-          <h3>Saisissez les données du produit</h3>
-        </ion-item>
-        <div class="image-setting">
-          <div>
-            <image-cropper
-              [imageChangedEvent]="imageChangedEvent"
-              [output]="'blob'"
-              [imageFile]="imageFile"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="500 / 500"
-              [resizeToWidth]="400"
-              [cropperMinWidth]="128"
-              [onlyScaleDown]="true"
-              [transform]="transform"
-              [roundCropper]="false"
-              [alignImage]="'left'"
-              [style.display]="showCropper ? null : 'none'"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded()"
-              (cropperReady)="cropperReady($event)"
-              (loadImageFailed)="loadImageFailed()"
-            ></image-cropper>
-          </div>
-          <div lines="none" class="image-buttons">
-              <ion-button (click)="fileInput.click()">Image
-                <input type="file" #fileInput (change)="fileChangeEvent($event)" hidden/>
-              </ion-button>
-              <ion-button (click)="replaceImage()">Rogner</ion-button>
-              <ion-button (click)="zoomIn()">Zoom +</ion-button>
-              <ion-button (click)="zoomOut()">Zoom -</ion-button>
-              <ion-button (click)="reinitImage()">Reset</ion-button>
-          </div>
+  <!--
+  <div class="product">
+    <ion-list>
+      <ion-item lines="none">
+        <h3>Saisissez les données du produit</h3>
+      </ion-item>
+      <div class="image-setting">
+        <div class="div-cropper">
+          <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [output]="'blob'"
+            [imageFile]="imageFile"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="68 / 25"
+            [resizeToWidth]="500"
+            [cropperMinWidth]="34"
+            [onlyScaleDown]="true"
+            [transform]="transform"
+            [roundCropper]="false"
+            [alignImage]="'left'"
+            [style.display]="showCropper ? null : 'none'"
+            format="webp"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded($event)"
+            (cropperReady)="cropperReady($event)"
+            (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
         </div>
-        <ion-item lines="none">
-          <ion-input
-            [value]="product.getProductName"
-            (ionInput)="onChangeName($event)"
-            label="Nom"
-            labelPlacement="stacked"
-            placeholder="Nom de la produit"
-            fill="solid"
-            type="ttext"
-            required
-            clearInput
-          ></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-input
-            [value]="product.getLabel"
-            (ionInput)="onChangeLabel($event)"
-            label="Libellé"
-            labelPlacement="stacked"
-            placeholder="libellé du produit"
-            fill="solid"
-            type="ttext"
-            required
-            clearInput
-          ></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-textarea
-            [value]="product.getDescription"
-            (ionInput)="onChangeDescription($event)"
-            label="Message"
-            labelPlacement="stacked"
-            fill="solid"
-            placeholder="Message"
-            required
-            clearInput
-          ></ion-textarea>
-          </ion-item>
-          <ion-item>
-            <ion-input
-              [value]="product.getPrice === 0 ? '' : product.getPrice"
-              (ionInput)="onChangePrice($event)"
-              label="Prix"
-              labelPlacement="stacked"
-              placeholder="Prix"
-              fill="solid"
-              type="text"
-              required
-              clearInput
-            ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-select
-            label="Marque"
-            placeholder="Marque"
-            label-placement="floating"
-            fill="solid"
-            [(ngModel)]="brandSelectId"
-          >
-            <ion-select-option *ngFor="let brand of getBrands" value="{{brand.getId}}">
-              {{brand.getBrandName}}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
+        <div lines="none" class="image-buttons">
+          <ion-icon name="arrow-up-outline" (click)="fileInput.click()"></ion-icon>
+          <input type="file" #fileInput (change)="fileChangeEvent($event)" hidden/>
+          <ion-icon name="pencil-outline" (click)="replaceImage()"></ion-icon>
+          <ion-icon name="add-circle-outline" (click)="zoomIn()"></ion-icon>
+          <ion-icon name="remove-circle-outline" (click)="zoomOut()"></ion-icon>
+          <ion-icon name="refresh-outline" (click)="reinitImage()"></ion-icon>
+          <ion-icon name="close-outline" (click)="cancel()"></ion-icon>
+        </div>
         <ion-item lines="none">
           <ion-input
             [value]="product.getPreparationTime"
@@ -148,11 +84,12 @@
         </ion-item>
         <ion-item lines="none">
           <div class="page-buttons">
-            <ion-button lines="none" (click)="saveProduct()">Enregistrer</ion-button>
             <ion-button lines="none" [routerLink]="['/VisiteurMenu/Produits']">Abandonner</ion-button>
           </div>
         </ion-item>
-      </ion-list>
-    </div>
+      </div>
+    </ion-list>
+  </div>
+-->
 </ion-content>
 

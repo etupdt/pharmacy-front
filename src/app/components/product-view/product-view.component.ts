@@ -16,7 +16,9 @@ export class ProductViewComponent  implements OnInit {
 
   @Input() productView!: Product
 
-  backendImages = environment.useBackendImages
+  backendImages = environment.useBackendApi + '/assets/images/'
+
+  imageToDisplay!: string
 
   constructor(
     private productService: ProductService,
@@ -28,6 +30,7 @@ export class ProductViewComponent  implements OnInit {
     if (this.product) {
       this.productView = this.product
     }
+    this.setImageToDisplay = this.productView.getImagePath
   }
 
   get getCartTotalSize() {
@@ -89,5 +92,7 @@ export class ProductViewComponent  implements OnInit {
     }
 
   }
+
+  set setImageToDisplay (image: string) {this.imageToDisplay = image === 'defaultProduct.webp' ? this.backendImages + 'defaultProduct.webp' :  this.backendImages + '/products/' + image}
 
 }
