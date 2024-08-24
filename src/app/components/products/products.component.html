@@ -6,7 +6,12 @@
       *isadmin="getRole"
       lines="none"
     >
-      <ion-button slot="end" (click)="addProduct()">Ajouter</ion-button>
+    <app-button 
+      class="add-product"
+      [callback]="addProduct.bind(this)"
+      text="Ajouter"
+      slot="end"
+    ></app-button>
     </ion-item>
     <div>
       <div *ngFor="let product of (getProductsFromService | filterProduct:getRefresh)">

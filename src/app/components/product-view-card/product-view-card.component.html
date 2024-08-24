@@ -1,0 +1,22 @@
+<ion-card fullscreen class="ion-padding">
+  <input type="text"
+    [(ngModel)]="name"
+    [disabled]="getRole < 3"
+    placeholder="Nom du produit"
+    (ngModelChange)="checkIsUpdated()"
+  >
+  <img
+    src="{{ imageToDisplay }}" alt="Selectionnez une image"
+  />
+  <textarea class="card-description"
+    [(ngModel)]="description"
+    [disabled]="getRole < 3"
+    (ngModelChange)="checkIsUpdated()"
+  ></textarea>
+  <ion-card-subtitle class="price">{{getProduct.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
+  <app-button 
+    class="add-product"
+    [callback]="addProductToCart.bind(this)"
+    text="Ajouter"
+  ></app-button>
+</ion-card>

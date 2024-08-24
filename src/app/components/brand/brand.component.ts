@@ -111,7 +111,7 @@ export class BrandComponent  implements OnInit {
         this.displayedImage = 'defaultBrand.png'
       }
 
-      this.imageService.getImage(this.urlImages + this.displayedImage).subscribe({
+      this.imageService.getImage(this.urlImages + 'brands/' + this.displayedImage).subscribe({
         next: (res: Blob) => {
           this.imageFile = res
         }

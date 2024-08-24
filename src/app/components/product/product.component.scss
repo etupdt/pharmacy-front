@@ -1,1 +1,113 @@
+ion-content {
 
+    --padding-top: 50px;
+  
+    h2 {
+      margin-left: 20px;
+    }
+
+    .views {
+      width: 100%;
+      margin: 20px;
+      display: flex;
+
+    }
+  
+    ion-list {
+
+      .div-cropper {
+
+        display: flex;
+
+        .champs {
+          width: 60%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        image-cropper {
+          width: 300px;
+        }
+
+        .image-buttons {
+          width: fit-content;
+          display: flex;
+          flex-direction: column;
+        }
+
+      }
+
+    }
+  
+  }
+  
+  @media screen and (max-width: 991px) {
+  
+    ion-content {
+  
+      ion-list {
+  
+        > div {
+  
+          > div {
+  
+            ion-card {
+  
+              display: flex;
+              flex-direction: row;
+              margin: 0px;
+              width: 100%;
+              height: auto;
+  
+              ion-img {
+                height: 120px;
+              }
+  
+              ion-card-content {
+  
+                ion-card-title {
+                  text-align: left;
+                }
+  
+                ion-card-subtitle {
+                  text-align: right;
+                  font-size: 1rem;
+                  font-weight: 550;
+                  padding: 5px 0;
+                }
+  
+              }
+  
+            }
+  
+          }
+  
+        }
+  
+      }
+  
+    }
+  
+  }
+  
+  @media screen and (max-width: 600px) {
+  
+    ion-content {
+  
+      h2 {
+        display: none;
+      }
+  
+      ion-list {
+  
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+  
+      }
+  
+    }
+  
+  }
+  

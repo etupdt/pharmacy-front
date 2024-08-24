@@ -1,4 +1,4 @@
-<ion-card expand="block">
+<ion-card expand="block" (click)="showDetail()">
   <div *ngIf="imageEditing === productCard.getId" class="div-icon">
     <ion-icon name="refresh-outline"
       *isadmin="getRole"

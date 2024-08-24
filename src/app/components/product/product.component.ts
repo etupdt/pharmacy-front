@@ -3,8 +3,10 @@ import { Dimensions, ImageCroppedEvent, ImageCropperComponent, ImageTransform, L
 import { ImageService } from 'src/app/services/image.service';
 import 'hammerjs';
 import { Product } from 'src/app/entities/product';
-import { InputCustomEvent } from '@ionic/angular';
+import { InputCustomEvent, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -15,11 +17,9 @@ export class ProductComponent  implements OnInit {
   @ViewChild(ImageCropperComponent) imageCropper: ImageCropperComponent | undefined;
 
   displayedImage: string = "defaultProduct.webp"
-  @Output() selectedImage: EventEmitter<string> = new EventEmitter();
+  selectedImage!: string
 
   urlImages = environment.useBackendApi + '/assets/images/'
-
-  product!: Product
 
   showCropper = true;
   imageChangedEvent: any;
@@ -30,7 +30,6 @@ export class ProductComponent  implements OnInit {
   croppedImage: any = '';
   imageSaved: any
   imageFile: any
-  productService: any;
 
   fileChangeEvent(event: any): void {
     if (!event || event.target.files[0])
@@ -72,27 +71,70 @@ export class ProductComponent  implements OnInit {
   }
 
   constructor(
-    private imageService: ImageService
+    private productService: ProductService,
+    private imageService: ImageService,
+    private router: Router,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
 
-    console.log('init product')
     this.imageSaved = this.displayedImage
-
-    if (!this.product) {
-      this.product = new Product().deserialize(history.state)
-    }
 
     this.displayCropperImage()
 
+  }
+
+  saveProduct = () => {
+
+    if (this.productService.product.getId === 0) {
+
+      this.productService.postProduct(this.productService.product, this.selectedImage).subscribe({
+        next: (res: any) => {
+          this.presentToast('middle', 'Le produit a été créé', 800)
+          const product = new Product().deserialize(res)
+          this.productService.products.push(product)
+          this.refresh()
+        },
+        error: (error: { error: { message: any; }; }) => {
+          this.presentToast('middle', error.error.message, 800)
+        }
+      })
+
+    } else {
+
+      const index = this.productService.products.findIndex((product: Product) => product.getId === this.productService.product.getId)
+
+      this.productService.putProduct(this.productService.product, this.selectedImage).subscribe({
+        next: (res: any) => {
+          this.presentToast('middle', 'Le produit a été mis à jour', 800)
+          this.productService.products.splice(index, 1)
+          const product = new Product().deserialize(res)
+          this.productService.products.push(product)
+          this.refresh()
+        },
+        error: (error: { error: { message: any; }; }) => {
+          this.presentToast('middle', error.error.message, 800)
+        }
+      })
+
+    }
+
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom', message: string, duration: number) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: duration,
+      position: position,
+    });
   }
 
   replaceImage = () => {
 
     this.displayedImage = this.croppedImage
 
-    this.selectedImage.emit(this.displayedImage)
+    this.selectedImage = this.displayedImage
 
     this.displayCropperImage()
 
@@ -108,7 +150,7 @@ export class ProductComponent  implements OnInit {
 
     this.displayedImage = this.imageSaved
 
-    this.selectedImage.emit(this.imageSaved)
+    this.selectedImage = this.imageSaved
 
     this.displayCropperImage()
 
@@ -138,50 +180,53 @@ export class ProductComponent  implements OnInit {
 
   cancel = () => {
 
-    this.reinitImage()
-
-    this.selectedImage.emit("")
+    this.router.navigateByUrl('VisiteurMenu/Produits')
 
   }
 
   onChangeName = (event: Event) => {
-    this.product.setProductName = (event as InputCustomEvent).detail.value!
+    this.productService.product.setProductName = (event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   onChangeDescription = (event: Event) => {
-    this.product.setDescription = (event as InputCustomEvent).detail.value!
+    this.productService.product.setDescription = (event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   onChangeLabel = (event: Event) => {
-    this.product.setLabel = (event as InputCustomEvent).detail.value!
+    this.productService.product.setLabel = (event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   onChangePrice = (event: Event) => {
-    this.product.setPrice = +(event as InputCustomEvent).detail.value!
+    this.productService.product.setPrice = +(event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   onChangePreparationTime = (event: Event) => {
-    this.product.setPreparationTime = +(event as InputCustomEvent).detail.value!
+    this.productService.product.setPreparationTime = +(event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   onChangeCommandTime = (event: Event) => {
-    this.product.setCommandTime = +(event as InputCustomEvent).detail.value!
+    this.productService.product.setCommandTime = +(event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   onChangeDeliveryTime = (event: Event) => {
-    this.product.setDeliveryTime = +(event as InputCustomEvent).detail.value!
+    this.productService.product.setDeliveryTime = +(event as InputCustomEvent).detail.value!
     this.refresh()
   }
 
   refresh = () => {
     this.productService.refreshUpdate++
     this.productService.signalRefresUpdateUpdated.set(this.productService.refreshUpdate)
+  }
+
+  get getProduct() {
+    console.log('phase 3')
+    return this.productService.product
   }
 
 }

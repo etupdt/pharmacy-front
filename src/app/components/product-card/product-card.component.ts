@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Product } from 'src/app/entities/product';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -30,11 +30,10 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   isUpdated: boolean = false
 
   backendImages = environment.useBackendApi + '/assets/images/'
-  modalCtrl: any;
 
   constructor(
     private authService: AuthService,
-    private router: Router,
+    private modalCtrl: ModalController,
     private productService: ProductService,
     private toastController: ToastController
   ) {
@@ -50,11 +49,9 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   }
 
   async showDetail() {
+    this.productService.product = this.productCard
     const modal = await this.modalCtrl.create({
-      component: ProductViewComponent,
-      componentProps: {
-        product: this.productCard
-      }
+      component: ProductViewComponent
     });
     modal.present();
 

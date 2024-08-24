@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Product } from 'src/app/entities/product';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
@@ -12,9 +12,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 })
 export class ProductViewComponent  implements OnInit {
 
-  product!: Product
-
-  @Input() productView!: Product
+  @Output() product: EventEmitter<Product> = new EventEmitter();
 
   backendImages = environment.useBackendApi + '/assets/images/'
 
@@ -27,10 +25,7 @@ export class ProductViewComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.product) {
-      this.productView = this.product
-    }
-    this.setImageToDisplay = this.productView.getImagePath
+    this.setImageToDisplay = this.getProduct.getImagePath
   }
 
   get getCartTotalSize() {
@@ -39,20 +34,8 @@ export class ProductViewComponent  implements OnInit {
     return total === 0 ? '' : total
   }
 
-  addProductToCart = (product: Product) => {
-    if (this.product) {
-      if (this.product) {
-        const index = this.productService.cart.detail.findIndex(detail => detail.product.getId === product.getId)
-        if (index !== -1)
-          this.productService.cart.detail[index].qte++
-        else
-          this.productService.cart.detail.push({qte: 1, product: product})
-      }
-    }
-  }
-
   back = () => {
-    if (this.product) {
+    if (this.getProduct) {
       return this.modalCtrl.dismiss(null, 'return');
     }
     return
@@ -91,6 +74,11 @@ export class ProductViewComponent  implements OnInit {
 
     }
 
+  }
+
+  get getProduct() {
+    console.log('phase 3.2')
+    return this.productService.product
   }
 
   set setImageToDisplay (image: string) {this.imageToDisplay = image === 'defaultProduct.webp' ? this.backendImages + 'defaultProduct.webp' :  this.backendImages + '/products/' + image}

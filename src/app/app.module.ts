@@ -44,6 +44,7 @@ import { BrandCardComponent } from './components/brand-card/brand-card.component
 import { BrandsComponent } from './components/brands/brands.component';
 import { ProductComponent } from './components/product/product.component';
 import { ButtonComponent } from './components/button/button.component';
+import { ProductViewCardComponent } from './components/product-view-card/product-view-card.component';
 
 registerLocaleData(localeFr);
 
@@ -78,6 +79,7 @@ registerLocaleData(localeFr);
     ProductCardComponent,
     ProductViewComponent,
     ButtonComponent,
+    ProductViewCardComponent,
     ImagePipe
   ],
   imports: [

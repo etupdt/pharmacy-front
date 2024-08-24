@@ -16,8 +16,6 @@ export class ProductsComponent implements OnInit{
 
   productTypes$: ProductsType[] = []
 
-  product!: Product
-
   backendImages = environment.useBackendApi + '/assets/images/'
 
   refresh: number = 0
@@ -27,7 +25,6 @@ export class ProductsComponent implements OnInit{
   constructor (
     private productService: ProductService,
     private router: Router,
-    private toastController: ModalController,
     private authService: AuthService,
   ) {}
 
@@ -45,7 +42,8 @@ export class ProductsComponent implements OnInit{
   }
 
   addProduct = () => {
-    this.router.navigateByUrl('VisiteurMenu/Produit', {state: new Product().deserialize({
+    console.log('phase 1')
+    this.productService.product = new Product().deserialize({
       id: 0,
       productName: '',
       label: '',
@@ -60,7 +58,9 @@ export class ProductsComponent implements OnInit{
       preparationTime: 0,
       commandTime: 0,
       deliveryTime: 0,
-    })})
+    })
+    console.log('phase 2')
+    this.router.navigateByUrl('VisiteurMenu/Produit')
   }
 
   getProducts = () => {
@@ -83,6 +83,11 @@ export class ProductsComponent implements OnInit{
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
+  }
+
+  get getProduct() {
+    console.log('phase 3.1')
+    return this.productService.product
   }
 
   get getDetail () {return this.productService.detail}

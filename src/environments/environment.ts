@@ -1,7 +1,7 @@
 
 export const environment = {
   production: false,
-  useBackendApi: 'https://localhost:49153',
+  useBackendApi: 'https://localhost:8081',
   // useBackendApi: 'http://localhost:3000',
   useBackendMail: 'http://192.168.1.17:3000',
   //useBackendImages: 'http://localhost:3000/images',

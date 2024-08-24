@@ -17,6 +17,7 @@ export class ProductService {
   signalRefresUpdateUpdated = signal(this.refreshUpdate)
 
   products: Product[] = []
+  product!: Product
 
   cart: DisplayCart = {
     display: false,
