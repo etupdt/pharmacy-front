@@ -17,6 +17,7 @@
           <div class="champs">
             <ion-select
             (ionChange)="onChangeBrand($event)"
+              selectedText="{{ getProduct.getBrand.getBrandName }}"
               class="always-flip"
               toggleIcon="caret-down-sharp"
               interface="popover"
