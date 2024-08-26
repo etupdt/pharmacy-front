@@ -3,11 +3,15 @@ import { Entity } from "./entity"
 
 export class OnSiteService extends Entity {
 
-  private id!: number
-  private description!: string
-  private price!: number
-  private duree!: number
-  private imagePath!: string
+  constructor (
+  private id: number,
+  name: string,
+  private description: string,
+  private price: number,
+  private duree: number,
+  private imagePath: string) {
+    super(name)
+  }
 
   backendImages = environment.useBackendImages
 
@@ -24,16 +28,9 @@ export class OnSiteService extends Entity {
   get getImagePath () {return this.imagePath}
   set setImagePath (imagePath: string) {this.imagePath = imagePath}
 
-  deserialize(data: any): OnSiteService {
+  static deserialize(data: any): OnSiteService {
 
-    this.id = data.id
-    this.name = data.onSiteServiceName
-    this.description = data.description
-    this.price = data.price
-    this.duree = data.duree
-    this.imagePath = data.imagePath
-
-    return this
+    return new OnSiteService(data.id, data.onSiteServiceName, data.description, data.price, data.duree, data.imagePath)
 
   }
 

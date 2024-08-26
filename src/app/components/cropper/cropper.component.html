@@ -1,37 +1,36 @@
-<input type="file" (change)="fileChangeEvent($event)" />
-<br />
-<br />
-<button (click)="rotateLeft()">Rotate left</button>
-<button (click)="rotateRight()">Rotate right</button>
-<button (click)="flipHorizontal()">Flip horizontal</button>
-<button (click)="flipVertical()">Flip vertical</button>
-<br />
-<br />
-<button (click)="toggleContainWithinAspectRatio()">{{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within Aspect Ratio'}}</button>
-<button (click)="resetImage()">Reset image</button>
-<br />
-<br />
-<input [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" /> <button (click)="zoomOut()">Zoom -</button> <button (click)="zoomIn()">Zoom +</button>
 
-<div>
-    <image-cropper
-        [imageChangedEvent]="imageChangedEvent"
-        [maintainAspectRatio]="true"
-        [containWithinAspectRatio]="containWithinAspectRatio"
-        [aspectRatio]="4 / 3"
-        [resizeToWidth]="256"
-        [cropperMinWidth]="128"
-        [onlyScaleDown]="true"
-        [roundCropper]="false"
-        [canvasRotation]="canvasRotation"
-        [transform]="transform"
-        [alignImage]="'left'"
-        [style.display]="showCropper ? null : 'none'"
-        format="png"
-        (imageCropped)="imageCropped($event)"
-        (imageLoaded)="imageLoaded()"
-        (cropperReady)="cropperReady($event)"
-        (loadImageFailed)="loadImageFailed()"
-    ></image-cropper>
-</div>
-<img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+<div class="onsiteservice">
+    <div class="image-setting">
+      <div class="div-cropper">
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [output]="'blob'"
+          [imageFile]="imageFile"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="aspectRatio"
+          [resizeToWidth]="350"
+          [cropperMinWidth]="100"
+          [onlyScaleDown]="true"
+          [transform]="transform"
+          [roundCropper]="false"
+          [alignImage]="'center'"
+          [style.display]="showCropper ? null : 'none'"
+          format="webp"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded($event)"
+          (cropperReady)="cropperReady($event)"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+      </div>
+      <div lines="none" class="image-buttons">
+        <ion-icon name="arrow-up-outline" (click)="fileInput.click()"></ion-icon>
+        <input type="file" #fileInput (change)="fileChangeEvent($event)" hidden/>
+        <ion-icon name="pencil-outline" (click)="replaceImage()"></ion-icon>
+        <ion-icon name="add-circle-outline" (click)="zoomIn()"></ion-icon>
+        <ion-icon name="remove-circle-outline" (click)="zoomOut()"></ion-icon>
+        <ion-icon name="refresh-outline" (click)="reinitImage()"></ion-icon>
+        <ion-icon name="close-outline" (click)="cancel()"></ion-icon>
+      </div>
+    </div>
+  </div>
+    

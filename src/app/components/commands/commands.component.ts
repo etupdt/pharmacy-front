@@ -40,7 +40,7 @@ export class CommandsComponent  implements OnInit {
     this.commandService.getCommands(undefined).subscribe({
       next: (res: any[]) => {
         let commands: Command[] = []
-        res.forEach(command => commands.push(new Command().deserialize(command)))
+        res.forEach(command => commands.push(Command.deserialize(command)))
         this.commands = commands
       },
       error: (error: { error: { message: any; }; }) => {

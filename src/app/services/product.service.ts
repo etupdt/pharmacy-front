@@ -35,10 +35,10 @@ export class ProductService {
       name: 'Prix',
       unit: '€',
       inf: 0,
-      sup: 60,
+      sup: 100,
       step: 5,
       startValue: 0,
-      endValue: 60
+      endValue: 100
     },
   ]
 
@@ -80,18 +80,20 @@ export class ProductService {
 
   }
 
-  postProduct(product: Product, image: string): Observable<any> {
+  postProduct(product: Product): Observable<any> {
 
     const formData: FormData = new FormData();
 
     formData.append('id', product.getId.toString())
     formData.append('productName', product.getProductName)
+    formData.append('brandId', product.getBrand.getId.toString())
+    formData.append('label', product.getLabel)
     formData.append('description', product.getDescription)
     formData.append('price', product.getPrice.toString())
     formData.append('preparationTime', product.getPreparationTime.toString())
     formData.append('commandTime', product.getCommandTime.toString())
     formData.append('deliveryTime', product.getDeliveryTime.toString())
-    formData.append('imagePath', image)
+    formData.append('imagePath', product.getImagePath)
 
     let headers = new HttpHeaders()
     headers.append('Content-Type','multipart/form-data')

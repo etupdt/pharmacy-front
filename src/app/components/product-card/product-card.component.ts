@@ -16,13 +16,14 @@ export class ProductCardComponent  implements OnInit, OnChanges {
 
   @Input() displayIcon: string = 'cache'
 
-  @Input() imageEditing: number = -1
+  // @Input() imageEditing: number = -1
   @Input() productCard!: Product
+  @Input() imagePath!: string
   @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
+  @Output() imageSelected: EventEmitter<string> = new EventEmitter();
 
   name: string = ''
   description: string = ''
-  @Input() imagePath!: string
   priceToDisplay!: string
   duree: number = 0
   imageToDisplay!: string
@@ -72,56 +73,14 @@ export class ProductCardComponent  implements OnInit, OnChanges {
     }
   }
 
-  editImage = () => {
-    if (this.getRole >= 3) {
-      if (this.imageEditing === this.productCard.getId)
-        this.cardIdSelected.emit(-1)
-      else
-        this.cardIdSelected.emit(this.productCard.getId)
-    }
-  }
-
-  saveProduct = () => {
-
-    this.productCard.setProductName = this.name
-
-    this.cardIdSelected.emit(-1)
-
-    const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
-
-    if (this.productCard.getId === 0) {
-
-      this.productService.postProduct(this.productCard, this.imagePath).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'La prestation a été créée', 800)
-          this.productCard = new Product().deserialize(res)
-          this.productService.products[index] = this.productCard
-          this.reinitProduct()
-          this.refresh()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
-
-    } else {
-
-      this.productService.putProduct(this.productCard, this.imagePath).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'La prestation a été mise à jour', 800)
-          this.productService.products.splice(index, 1)
-          this.productCard = new Product().deserialize(res)
-          this.productService.products.push(this.productCard)
-          this.refresh()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
-
-    }
-
-  }
+  // editImage = () => {
+  //   if (this.getRole >= 3) {
+  //     if (this.imageEditing === this.productCard.getId)
+  //       this.cardIdSelected.emit(-1)
+  //     else
+  //       this.cardIdSelected.emit(this.productCard.getId)
+  //   }
+  // }
 
   reinitProduct = () => {
 
@@ -185,6 +144,7 @@ export class ProductCardComponent  implements OnInit, OnChanges {
     } else {
 
       this.imagePath = image
+      this.getProduct.setImagePath = image
 
       if (typeof image === 'string') {
         this.setImageToDisplay = image
@@ -201,7 +161,7 @@ export class ProductCardComponent  implements OnInit, OnChanges {
     }
   }
 
-  set setImageToDisplay (image: string) {this.imageToDisplay = image === 'defaultProduct.webp' ? this.backendImages + 'defaultProduct.webp' :  this.backendImages + '/products/' + image}
+  set setImageToDisplay (image: string) {this.imageToDisplay = this.backendImages + '/products/' + (image === 'default.webp' ? 'blank.png' : image)}
 
   refresh = () => {
     this.productService.refreshUpdate++
@@ -211,6 +171,6 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   get getRole() {return this.authService.role}
   get getMenuIndex() {return this.authService.menuIndex}
   get getMenuTabs() {return this.authService.menuTabs}
-  get getRefreshUpdate() {return this.productService.refreshUpdate}
+  get getProduct() {return this.productService.product}
 
 }

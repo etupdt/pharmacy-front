@@ -24,7 +24,7 @@ export class FilterProductPipe implements PipeTransform {
     productTypes = this.productService.productTypes.filter(productType => productType.checked)
 
     const filters = this.productService.filters
-
+console.log('products', products)
     return products.filter((product: Product) => {
 
       let returnValue = true
@@ -43,19 +43,19 @@ export class FilterProductPipe implements PipeTransform {
 
         filters.forEach(filter => {
 
-        switch (filter.name) {
+          switch (filter.name) {
 
-          case 'Prix' : {
-            if (product.getPrice < filter.startValue || product.getPrice > filter.endValue)
-              returnValue = false
-            break
+            case 'Prix' : {
+              if (product.getPrice < filter.startValue || product.getPrice > filter.endValue)
+                returnValue = false
+              break
+            }
+
           }
 
-        }
+        })
 
-      })
-
-    }
+      }
 
       return returnValue
 

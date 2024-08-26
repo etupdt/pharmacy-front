@@ -41,7 +41,7 @@ export class BrandsComponent implements OnInit {
   }
 
   addBrand = () => {
-    this.brandService.brands.push(new Brand().deserialize({
+    this.brandService.brands.push(Brand.deserialize({
       id: 0,
       brandName: '',
       description: '',
@@ -59,7 +59,7 @@ export class BrandsComponent implements OnInit {
         console.log('res', res)
         let brands: Brand[] = []
         res.forEach((p: any) => {
-          let brand = new Brand().deserialize(p)
+          let brand = Brand.deserialize(p)
           brands.push(brand)
         })
         this.brandService.brands = brands

@@ -39,7 +39,7 @@ export class CommandService {
     let dispatchLines: DispatchLine[] = []
     cart.detail.forEach(detail => {
 
-      dispatchLines.push(new DispatchLine().deserialize({
+      dispatchLines.push(DispatchLine.deserialize({
         id: 0,
         product: detail.product,
         payedPrice: detail.product.getPrice,
@@ -53,7 +53,7 @@ export class CommandService {
     Object.entries(dispatchGroup).forEach(([key, value], index) => {
       datePreparation.setDate(dayDate.getDate() + value[0].getProduct.getPreparationTime)
       dateDelivery.setDate(datePreparation.getDate() + 1)
-      dispatches.push(new Dispatch().deserialize({
+      dispatches.push(Dispatch.deserialize({
         id: 0,
         dispatchDate: formatDate(datePreparation,'dd/MM/yyyy', 'fr'),
         receptionDate: formatDate(dateDelivery,'dd/MM/yyyy', 'fr'),
@@ -62,7 +62,7 @@ export class CommandService {
       }))
     })
 
-    let command = new Command().deserialize({
+    let command = Command.deserialize({
       id: 0,
       paymentDate: formatDate(dayDate,'dd/MM/yyyy', 'fr'),
       dispatches: dispatches,
