@@ -1,8 +1,4 @@
-<div>
-  <div
-    *isemployee="getRole"
-    [ngClass]="imageEditing === -1 || imageEditing === onSiteServiceCard.getId ? '' : 'masked'"
-  ></div>
+<div [ngClass]="imageEditing === -1 || imageEditing === onSiteServiceCard.getId ? 'unmasked' : ''">
   <ion-card *ngIf="onSiteServiceCard">
     <img
       src="{{ imageToDisplay }}" alt="Selectionnez une image"
