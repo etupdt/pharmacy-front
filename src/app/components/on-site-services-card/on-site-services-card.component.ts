@@ -69,7 +69,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
       this.onSiteServiceService.postOnSiteService(this.onSiteServiceCard, this.imagePath).subscribe({
         next: (res: any) => {
           this.presentToast('middle', 'La prestation a été créée', 800)
-          this.onSiteServiceCard = new OnSiteService().deserialize(res)
+          this.onSiteServiceCard = OnSiteService.deserialize(res)
           this.onSiteServiceService.onSiteServices[index] = this.onSiteServiceCard
           this.reinitOnSiteService()
           this.refresh()
@@ -85,7 +85,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
         next: (res: any) => {
           this.presentToast('middle', 'La prestation a été mise à jour', 800)
           this.onSiteServiceService.onSiteServices.splice(index, 1)
-          this.onSiteServiceCard = new OnSiteService().deserialize(res)
+          this.onSiteServiceCard = OnSiteService.deserialize(res)
           this.onSiteServiceService.onSiteServices.push(this.onSiteServiceCard)
           this.refresh()
         },

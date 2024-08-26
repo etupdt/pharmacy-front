@@ -3,12 +3,12 @@ import { Product } from "./product";
 
 export class DispatchLine {
 
-  private id!: number
-  private product!: Product
-  private payedPrice!: number
-  private quantity!: number
-
-  constructor () {}
+  constructor (
+    private id: number,
+    private product: Product,
+    private payedPrice: number,
+    private quantity: number
+  ) {}
 
   get getId () { return this.id }
   set setId (id: number) {this.id = id}
@@ -19,14 +19,12 @@ export class DispatchLine {
   get getQuantity () { return this.quantity }
   set setQuantity (quantity: number) {this.quantity = quantity}
 
-  deserialize(data: any): DispatchLine {
+  static deserialize(data: any): DispatchLine {
 
-    this.id = data.id
-    this.product = new Product().deserialize(data.product)
-    this.payedPrice = data.payedPrice
-    this.quantity = data.quantity
-
-    return this
+    return new DispatchLine(data.id,
+    Product.deserialize(data.product),
+    data.payedPrice,
+    data.quantity)
 
   }
 

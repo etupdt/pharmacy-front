@@ -7,13 +7,15 @@ import { InputCustomEvent, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
+import { BrandService } from 'src/app/services/brand.service';
+import { Brand } from 'src/app/entities/brand';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent  implements OnInit {
+export class ProductComponent {
   @ViewChild(ImageCropperComponent) imageCropper: ImageCropperComponent | undefined;
 
   displayedImage: string = "defaultProduct.webp"
@@ -21,80 +23,24 @@ export class ProductComponent  implements OnInit {
 
   urlImages = environment.useBackendApi + '/assets/images/'
 
-  showCropper = true;
-  imageChangedEvent: any;
-  rotation = 0;
-  scale = 1;
-  transform: ImageTransform = {};
-
-  croppedImage: any = '';
-  imageSaved: any
-  imageFile: any
-
-  fileChangeEvent(event: any): void {
-    if (!event || event.target.files[0])
-      this.imageFile = event.target.files[0]
-  }
-
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.blob;
-  }
-
-  imageLoaded(image: LoadedImage) {
-//    image.original.size.width = 400
-//    image.original.size.height = 300
-    this.showCropper = true;
-  }
-
-  zoomOut() {
-    this.scale -= .1;
-    this.transform = {
-        ...this.transform,
-        scale: this.scale
-    };
-  }
-
-  zoomIn() {
-    this.scale += .1;
-    this.transform = {
-        ...this.transform,
-        scale: this.scale
-    };
-}
-
-  cropperReady(sourceImageDimensions: Dimensions) {
-      console.log('Cropper ready', sourceImageDimensions);
-  }
-
-  loadImageFailed() {
-      console.log('Load failed');
-  }
-
   constructor(
     private productService: ProductService,
+    private brandService: BrandService,
     private imageService: ImageService,
     private router: Router,
     private toastController: ToastController
   ) { }
 
-  ngOnInit() {
-
-    this.imageSaved = this.displayedImage
-
-    this.displayCropperImage()
-
-  }
-
   saveProduct = () => {
 
     if (this.productService.product.getId === 0) {
 
-      this.productService.postProduct(this.productService.product, this.selectedImage).subscribe({
+      this.productService.postProduct(this.productService.product).subscribe({
         next: (res: any) => {
           this.presentToast('middle', 'Le produit a été créé', 800)
-          const product = new Product().deserialize(res)
+          const product = Product.deserialize(res)
           this.productService.products.push(product)
-          this.refresh()
+          this.router.navigateByUrl('VisiteurMenu/Produits')
         },
         error: (error: { error: { message: any; }; }) => {
           this.presentToast('middle', error.error.message, 800)
@@ -109,9 +55,9 @@ export class ProductComponent  implements OnInit {
         next: (res: any) => {
           this.presentToast('middle', 'Le produit a été mis à jour', 800)
           this.productService.products.splice(index, 1)
-          const product = new Product().deserialize(res)
+          const product = Product.deserialize(res)
           this.productService.products.push(product)
-          this.refresh()
+          this.router.navigateByUrl('VisiteurMenu/Produits')
         },
         error: (error: { error: { message: any; }; }) => {
           this.presentToast('middle', error.error.message, 800)
@@ -130,58 +76,15 @@ export class ProductComponent  implements OnInit {
     });
   }
 
-  replaceImage = () => {
-
-    this.displayedImage = this.croppedImage
-
-    this.selectedImage = this.displayedImage
-
-    this.displayCropperImage()
-
-  }
-
-  reinitImage = () => {
-
-    this.scale = 1;
-    this.transform = {
-      ...this.transform,
-      scale: this.scale
-    }
-
-    this.displayedImage = this.imageSaved
-
-    this.selectedImage = this.imageSaved
-
-    this.displayCropperImage()
-
-  }
-
-  displayCropperImage = () => {
-
-    if (typeof this.displayedImage === 'string') {
-
-      if (this.displayedImage === '') {
-        this.displayedImage = 'defaultProduct.webp'
-      }
-
-      this.imageService.getImage(this.urlImages + this.displayedImage).subscribe({
-        next: (res: Blob) => {
-          this.imageFile = res
-        }
-      })
-
-    } else {
-
-      this.imageFile = this.displayedImage
-
-    }
-
-  }
-
   cancel = () => {
 
     this.router.navigateByUrl('VisiteurMenu/Produits')
 
+  }
+
+  onChangeBrand = (event: Event) => {
+    this.productService.product.setBrand = new Brand(parseInt((event as InputCustomEvent).detail.value!), '', '')
+    this.refresh()
   }
 
   onChangeName = (event: Event) => {
@@ -225,8 +128,11 @@ export class ProductComponent  implements OnInit {
   }
 
   get getProduct() {
-    console.log('phase 3')
     return this.productService.product
   }
-
+  
+  get getBrands() {
+    return this.brandService.brands
+  }
+  
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, effect } from '@angular/core';
 import { Product } from 'src/app/entities/product';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, ModalController, ToastController } from '@ionic/angular';
 import { ProductsType } from 'src/app/interfaces/products-type.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
@@ -26,11 +26,15 @@ export class ProductsComponent implements OnInit{
     private productService: ProductService,
     private router: Router,
     private authService: AuthService,
-  ) {}
+    private toastController: ToastController
+  ) {
+    effect(() => {
+      this.productService.signalRefresUpdateUpdated()
+    });
+  }
 
   ngOnInit(): void {
 
-    console.log('init products')
     this.getProducts()
 
   }
@@ -42,8 +46,7 @@ export class ProductsComponent implements OnInit{
   }
 
   addProduct = () => {
-    console.log('phase 1')
-    this.productService.product = new Product().deserialize({
+    this.productService.product = Product.deserialize({
       id: 0,
       productName: '',
       label: '',
@@ -53,13 +56,12 @@ export class ProductsComponent implements OnInit{
       brand: {
         id: 0
       },
-      imagePath: 'defaultProduct.webp',
+      imagePath: 'default.webp',
       type: 0,
       preparationTime: 0,
       commandTime: 0,
       deliveryTime: 0,
     })
-    console.log('phase 2')
     this.router.navigateByUrl('VisiteurMenu/Produit')
   }
 
@@ -69,25 +71,25 @@ export class ProductsComponent implements OnInit{
       next: (res: any) => {
         let products: Product[] = []
         res.forEach((p: any) => {
-          products.push(new Product().deserialize(p));
+          products.push(Product.deserialize(p));
         })
         this.productService.products = products
       },
       error: (error: { error: { message: any; }; }) => {
+        this.presentToast('middle', error.error.message, 800)
       }
     })
 
   }
 
-  onIonInfinite(ev: Event) {
-    setTimeout(() => {
-      (ev as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
-  }
+  async presentToast(position: 'top' | 'middle' | 'bottom', message: string, duration: number) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: duration,
+      position: position,
+    });
 
-  get getProduct() {
-    console.log('phase 3.1')
-    return this.productService.product
+    await toast.present();
   }
 
   get getDetail () {return this.productService.detail}
@@ -95,5 +97,8 @@ export class ProductsComponent implements OnInit{
   get getRefresh() {return this.productService.refresh}
   get getProductsFromService() {return this.productService.products}
   get getRole() {return this.authService.role}
+  get getRefreshUpdate() {
+    return this.productService.refreshUpdate
+  }
 
 }

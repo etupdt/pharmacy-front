@@ -1,8 +1,6 @@
 export class Entity {
 
-    protected name!: string
-
-    constructor () {}
+    constructor (protected name: string) {}
     
     get getName () { return this.name }
     

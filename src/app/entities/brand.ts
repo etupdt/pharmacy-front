@@ -3,8 +3,10 @@ import { Entity } from "./entity"
 export class Brand extends Entity {
 
   checked: boolean = false
-  private id!: number
-  private imagePath!: string
+
+  constructor (private id: number, name: string, private imagePath: string) {
+    super(name)
+  }
 
   get getId () { return this.id }
   set setId (id: number) {this.id = id}
@@ -13,13 +15,9 @@ export class Brand extends Entity {
   get getImagePath () { return this.imagePath }
   set setImagePath (imagePath: string) {this.imagePath = imagePath}
   
-  deserialize(data: any): Brand {
+  static deserialize(data: any): Brand {
 
-    this.id = data.id
-    this.name = data.brandName
-    this.imagePath = data.imagePath
-
-    return this
+    return new Brand(data.id, data.brandName, data.imagePath)
 
   }
 

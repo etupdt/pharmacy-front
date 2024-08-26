@@ -1,26 +1,29 @@
 import { ProductType } from "../enums/product-type"
 import { Brand } from "./brand"
+import { Entity } from "./entity"
 
-export class Product {
+export class Product extends Entity{
 
-  private id!: number
-  private productName!: string
-  private label!: string
-  private description!: string
-  private price!: number
-  private brand!: Brand
-  private imagePath!: string
-  private type!: ProductType
-  private preparationTime!: number
-  private commandTime!: number
-  private deliveryTime!: number
-
-  constructor () {}
+  constructor (
+    private id: number,
+    name: string,
+    private label: string,
+    private description: string,
+    private price: number,
+    private brand: Brand,
+    private imagePath: string,
+    private type: ProductType,
+    private preparationTime: number,
+    private commandTime: number,
+    private deliveryTime: number
+  ) {
+    super(name)
+  }
 
   get getId () { return this.id }
   set setId (id: number) {this.id = id}
-  get getProductName () { return this.productName }
-  set setProductName (productName: string) {this.productName = productName}
+  get getProductName () { return this.name }
+  set setProductName (productName: string) {this.name = productName}
   get getLabel () { return this.label }
   set setLabel (label: string) {this.label = label}
   get getDescription () { return this.description }
@@ -40,21 +43,19 @@ export class Product {
   get getDeliveryTime () { return this.deliveryTime }
   set setDeliveryTime (deliveryTime: number) {this.deliveryTime = deliveryTime}
 
-  deserialize(data: any): Product {
+  static deserialize(data: any): Product {
 
-    this.id = data.id
-    this.productName = data.productName
-    this.label = data.label
-    this.description = data.description
-    this.price = data.price
-    this.brand = new Brand().deserialize(data.brand)
-    this.imagePath = data.imagePath
-    this.type = data.type
-    this.preparationTime = data.preparationTime
-    this.commandTime = data.commandTime
-    this.deliveryTime = data.deliveryTime
-
-    return this
+    return new Product(data.id,
+    data.productName,
+    data.label,
+    data.description,
+    data.price,
+    Brand.deserialize(data.brand),
+    data.imagePath,
+    data.type,
+    data.preparationTime,
+    data.commandTime,
+    data.deliveryTime)
 
   }
 

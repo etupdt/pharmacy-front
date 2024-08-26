@@ -7,12 +7,14 @@
     >
       <ion-button slot="end" (click)="addOnSiteService()">Ajouter</ion-button>
     </ion-item>
-    <div class="onsiteservice" *ngFor="let onSiteService of getOnSiteServicesFromService | isUpdated:getRefreshUpdate">
-      <app-on-site-services-card
+    <div class="onsiteservices">
+      <div class="onsiteservice" *ngFor="let onSiteService of getOnSiteServicesFromService | isUpdated:getRefreshUpdate">
+        <app-on-site-services-card
         [onSiteServiceCard]="onSiteService"
         [imageEditing]="cardIdSelected"
         (cardIdSelected)="onSelectCard($event)"
-      ></app-on-site-services-card>
+        ></app-on-site-services-card>
+      </div>
     </div>
   </ion-list>
 </ion-content>

@@ -66,7 +66,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
       this.brandService.postBrand(this.brandCard, this.imagePath).subscribe({
         next: (res: any) => {
           this.presentToast('middle', 'La prestation a été créée', 800)
-          this.brandCard = new Brand().deserialize(res)
+          this.brandCard = Brand.deserialize(res)
           this.brandService.brands[index] = this.brandCard
           this.reinitBrand()
           this.refresh()
@@ -82,7 +82,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
         next: (res: any) => {
           this.presentToast('middle', 'La prestation a été mise à jour', 800)
           this.brandService.brands.splice(index, 1)
-          this.brandCard = new Brand().deserialize(res)
+          this.brandCard = Brand.deserialize(res)
           this.brandService.brands.push(this.brandCard)
           this.refresh()
         },

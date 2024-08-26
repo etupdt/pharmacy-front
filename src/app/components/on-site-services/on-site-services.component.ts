@@ -43,7 +43,7 @@ export class OnSiteServicesComponent implements OnInit {
   }
 
   addOnSiteService = () => {
-    this.onSiteServiceService.onSiteServices.push(new OnSiteService().deserialize({
+    this.onSiteServiceService.onSiteServices.push(OnSiteService.deserialize({
       id: 0,
       onSiteServiceName: '',
       description: '',
@@ -61,7 +61,7 @@ export class OnSiteServicesComponent implements OnInit {
         console.log('res', res)
         let onSiteServices: OnSiteService[] = []
         res.forEach((p: any) => {
-          let onSiteService = new OnSiteService().deserialize(p)
+          let onSiteService = OnSiteService.deserialize(p)
           onSiteServices.push(onSiteService)
         })
         this.onSiteServiceService.onSiteServices = onSiteServices

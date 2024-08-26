@@ -4,13 +4,13 @@ import { Dispatch } from "./dispatch"
 
 export class Command {
 
-  private id!: number
-  private paymentDate!: string
-  private dispatches!: Dispatch[]
-  private commandState!: State
-  private client!: Client
-
-  constructor () {}
+  constructor (
+    private id: number,
+    private paymentDate: string,
+    private dispatches: Dispatch[],
+    private commandState: State,
+    private client: Client
+  ) {}
 
   get getId () { return this.id }
   set setId (id: number) {this.id = id}
@@ -23,22 +23,20 @@ export class Command {
   get getClient () { return this.client }
   set setClient (client: Client) {this.client = client}
 
-  deserialize(data: any): Command {
+  static deserialize(data: any): Command {
 
     let dispatchesDeSerialized: any[] = []
     if (data.dispatches != null) {
       data.dispatches.forEach((dispatch: Dispatch) => {
-        dispatchesDeSerialized.push(new Dispatch().deserialize(dispatch))
+        dispatchesDeSerialized.push(Dispatch.deserialize(dispatch))
       })
     }
 
-    this.id = data.id
-    this.paymentDate = data.paymentDate
-    this.dispatches = dispatchesDeSerialized
-    this.commandState = data.commandState
-    this.client = new Client().deserialize(data.client)
-
-    return this
+    return new Command(data.id,
+    data.paymentDate,
+    dispatchesDeSerialized,
+    data.commandState,
+    new Client().deserialize(data.client))
 
   }
 

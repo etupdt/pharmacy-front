@@ -1,34 +1,36 @@
-<ion-card expand="block" (click)="showDetail()">
-  <div *ngIf="imageEditing === productCard.getId" class="div-icon">
-    <ion-icon name="refresh-outline"
-      *isadmin="getRole"
-      [ngClass]="isUpdated ? '' : 'cache'"
-      slot="end"
-      (click)="reinitProduct();$event.stopPropagation()"
-    ></ion-icon>
-    <ion-icon
-      *isadmin="getRole"
-      [ngClass]="isUpdated ? '' : 'cache'"
-      slot="end"
-      name="pencil-outline"
-      (click)="saveProduct();$event.stopPropagation()"
-    ></ion-icon>
-    <ion-icon
-      *isadmin="getRole"
-      slot="end"
-      name="trash-outline"
-      (click)="deleteProduct();$event.stopPropagation()"
-    ></ion-icon>
-  </div>
-  <img
-    src="{{ imageToDisplay }}" alt="Selectionnez une image"
-    (click)="editImage();$event.stopPropagation()"
-  />
-  <ion-card-title>{{productCard.getProductName}}</ion-card-title>
-  <ion-card-subtitle class="price">{{productCard.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
-  <app-button 
-    class="add-product"
-    [callback]="addProductToCart.bind(this, productCard)"
-    text="Ajouter"
-  ></app-button>
-</ion-card>
+<div class="select-image">
+  <ion-card expand="block" (click)="showDetail()">
+    <div *ngIf="displayIcon === 'cache'" class="div-icon">
+      <ion-icon name="refresh-outline"
+        *isadmin="getRole"
+        [ngClass]="isUpdated ? '' : 'cache'"
+        slot="end"
+        (click)="reinitProduct();$event.stopPropagation()"
+      ></ion-icon>
+      <ion-icon
+        *isadmin="getRole"
+        slot="end"
+        name="trash-outline"
+        (click)="deleteProduct();$event.stopPropagation()"
+      ></ion-icon>
+    </div>
+    <img
+      src="{{ imageToDisplay }}" alt="Selectionnez une image"
+    />
+    <ion-card-title>{{productCard.getProductName}}</ion-card-title>
+    <ion-card-subtitle class="price">{{productCard.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
+    <app-button 
+      class="add-product"
+      [callback]="addProductToCart.bind(this, productCard)"
+      text="Ajouter"
+    ></app-button>
+  </ion-card>
+  <app-cropper
+  *ngIf="getRole >= 3 && displayIcon !== 'cache'"
+  [displayedImage]="getProduct.getImagePath"
+  (selectedImage)="onSelectImage($event)"
+  [imageWidth]="350"
+  [aspectRatio]="1 / 1"
+  [urlImages]="backendImages + 'products/'"
+  ></app-cropper>
+</div>
