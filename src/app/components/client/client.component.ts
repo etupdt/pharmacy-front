@@ -31,7 +31,9 @@ export class ClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm(this.clientService.signalClientUpdated());
+    console.log('oninitclient', this.clientService.client)
+
+    this.initForm(this.clientService.client)
   }
 
   initForm = (client: Client) => {
@@ -123,9 +125,10 @@ export class ClientComponent implements OnInit {
 
   saveClient = () => {
 
+    console.log('avant', this.clientService.client)
     this.clientService.client = new Client().deserialize({
       id: this.clientService.client.getId,
-//      email: this.clientForm.get("email")!.value,
+      email: this.clientForm.get("email")!.value,
       firstName: this.clientForm.get("firstname")!.value,
       lastName: this.clientForm.get("lastname")!.value,
       address1: this.clientForm.get("address1")!.value,
@@ -134,12 +137,12 @@ export class ClientComponent implements OnInit {
       locality: this.clientForm.get("locality")!.value
     })
     this.clientService.signalClientUpdated.set(this.clientService.client)
+    console.log('apres', this.clientService.client)
 
     this.clientService.putClient(this.clientService.client).subscribe({
-      next: (res: any[]) => {
-        res.forEach(p => {
+      next: (res: any) => {
+          this.initForm(this.clientService.signalClientUpdated())
           this.presentToast('middle', 'Le client a été mis à jour', 800)
-        })
       },
       error: (error: { error: { message: any; }; }) => {
         this.presentToast('middle', error.error.message, 800)

@@ -16,7 +16,8 @@
     </div>
     <img
       src="{{ imageToDisplay }}" alt="Selectionnez une image"
-    />
+      (click)="showDetail();$event.stopPropagation()"
+      />
     <ion-card-title>{{productCard.getProductName}}</ion-card-title>
     <ion-card-subtitle class="price">{{productCard.getPrice | number: '1.2-2'}} €</ion-card-subtitle>
     <app-button 

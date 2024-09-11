@@ -1,0 +1,35 @@
+
+<ion-content>
+  <div>
+    <ion-list>
+      <ion-item lines="none">
+        <h3>Saisissez vos données personnelles</h3>
+      </ion-item>
+      <ion-select
+        (ionChange)="onEmailChange($event)"
+        class="always-flip"
+        toggleIcon="caret-down-sharp"
+        interface="popover"
+        label="Email"
+        labelPlacement="stacked"
+        fill="solid"
+      >
+        <ion-select-option *ngFor="let client of clients; let index = index" value="{{ index }}">{{ client.getEmail }}</ion-select-option>
+      </ion-select>
+      <ion-select
+        (ionChange)="onRoleChange($event)"
+        class="always-flip"
+        toggleIcon="caret-down-sharp"
+        interface="popover"
+        label="Role"
+        labelPlacement="stacked"
+        fill="solid"
+      >
+        <ion-select-option *ngFor="let role of roles; let index = index" value="{{ index }}">{{ role }}</ion-select-option>
+      </ion-select>
+      <ion-item lines="none">
+        <ion-button (click)="saveRole()">Enregistrer</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

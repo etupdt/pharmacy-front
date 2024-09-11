@@ -7,12 +7,15 @@
     >
       <ion-button slot="end" (click)="addBrand()">Ajouter</ion-button>
     </ion-item>
-    <div class="brand" *ngFor="let brand of getBrandsFromService | isUpdated:getRefreshUpdate">
-      <app-brand-card
-        [brandCard]="brand"
-        [imageEditing]="cardIdSelected"
-        (cardIdSelected)="onSelectCard($event)"
-      ></app-brand-card>
+    <div class="brands">
+      <div [ngClass]="'masked'"></div>
+      <div class="brand" *ngFor="let brand of getBrandsFromService | isUpdated:getRefreshUpdate">
+        <app-brand-card
+          [brandCard]="brand"
+          [imageEditing]="cardIdSelected"
+          (cardIdSelected)="onSelectCard($event)"
+        ></app-brand-card>
+      </div>
     </div>
   </ion-list>
 </ion-content>

@@ -1,8 +1,4 @@
-<div>
-  <div
-    *isemployee="getRole"
-    [ngClass]="imageEditing === -1 || imageEditing === brandCard.getId ? '' : 'masked'"
-  ></div>
+<div [ngClass]="imageEditing === -1 || imageEditing === brandCard.getId ? 'unmasked' : ''">
   <ion-card *ngIf="brandCard">
     <img
       src="{{ imageToDisplay }}" alt="Selectionnez une image"

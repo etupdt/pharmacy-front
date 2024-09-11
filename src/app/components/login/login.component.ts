@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonModal, ModalController, ToastController } from '@ionic/angular';
 import { Client } from 'src/app/entities/client';
+import { Role } from 'src/app/enums/role';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClientService } from 'src/app/services/client.service';
 
@@ -15,9 +16,13 @@ export class LoginComponent implements OnInit {
 
   @ViewChild(IonModal) modal!: IonModal;
 
+  typeLogin: string = 'login'
+
   loginForm!: FormGroup
 
   isUpdated = false
+
+  stringRole: keyof typeof Role = 'VISITOR'
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +36,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm('xavier.dupont@test.fr')
+  }
+
+  toggleType() {
+    this.typeLogin = this.typeLogin === 'login' ? 'register' : 'login'
+    return false
   }
 
   initForm = (email: string) => {
@@ -90,7 +100,7 @@ export class LoginComponent implements OnInit {
   connect = () => {
 
     if (this.getAuthenticatedEmail) {
-      this.authService.setRole = '["ROLE_USER"]'
+      this.authService.role = Role.VISITOR
       this.authService.signalRoleUpdated.set(this.authService.role)
       this.authService.email = undefined
       this.clientService.signalClientUpdated.set(this.clientService.clientInit)
@@ -99,24 +109,51 @@ export class LoginComponent implements OnInit {
       this.router.navigate([this.getMenuTabs[this.getMenuIndex].path + '/' + this.getRoutes[this.getMenuTabs[this.getMenuIndex].option].path])
       this.back()
     } else {
-      this.authService.login(
-        this.loginForm.get("email")!.value,
-        this.loginForm.get("password")!.value
-      ).subscribe({
-        next: (res: any) => {
-          this.clientService.client = new Client().deserialize(res.user)
-          this.authService.email = this.loginForm.get("email")!.value
-          this.authService.setRole = res.auth.roles
-          this.authService.signalRoleUpdated.set(this.authService.role)
-          this.clientService.signalClientUpdated.set(this.clientService.client)
-          this.presentToast('middle', 'Vous êtes maintenant authentifié', 1500)
-          this.back()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-          return
+      if (this.typeLogin === 'login') {
+        this.authService.login(
+          this.loginForm.get("email")!.value,
+          this.loginForm.get("password")!.value
+        ).subscribe({
+          next: (res: any) => {
+            this.clientService.client = new Client().deserialize(res.user)
+            this.authService.email = this.loginForm.get("email")!.value
+            localStorage.setItem('pharmacy_token', res.auth.token)!
+            this.stringRole = res.auth.role
+            this.authService.role = Role[this.stringRole]
+            this.authService.signalRoleUpdated.set(this.authService.role)
+            this.clientService.signalClientUpdated.set(this.clientService.client)
+            this.presentToast('middle', 'Vous êtes maintenant authentifié', 1500)
+            this.back()
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+            return
+          }
+        })
+      } else {
+        this.authService.register(
+          this.loginForm.get("email")!.value,
+          this.loginForm.get("password")!.value
+        ).subscribe({
+          next: (res: any) => {
+            this.clientService.client = new Client().deserialize(this.clientService.clientInit)
+            this.clientService.client.setId = res.id
+            this.clientService.client.setEmail = res.email
+            localStorage.setItem('pharmacy_token', res.auth.token)!
+            this.authService.email = res.email
+            this.authService.role = Role.CLIENT
+            this.authService.signalRoleUpdated.set(this.authService.role)
+            this.clientService.signalClientUpdated.set(this.clientService.client)
+            this.presentToast('middle', 'Vous êtes maintenant authentifié. Pensez à  renseigner vos cooronnées dans l\'option Client', 1500)
+            this.back()
+          },
+          error: (error: { error: { message: any; }; }) => {
+            console.log(error)
+            this.presentToast('middle', error.error.message, 800)
+            return
+          }
+        })
         }
-      })
     }
 
     return

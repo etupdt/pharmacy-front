@@ -34,6 +34,7 @@ export class ProductCardComponent  implements OnInit, OnChanges {
 
   constructor(
     private authService: AuthService,
+    private router: Router,
     private modalCtrl: ModalController,
     private productService: ProductService,
     private toastController: ToastController
@@ -50,17 +51,28 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   }
 
   async showDetail() {
-    this.productService.product = this.productCard
-    const modal = await this.modalCtrl.create({
-      component: ProductViewComponent
-    });
-    modal.present();
 
-    const { data, role } = await modal.onWillDismiss();
+    if (this.getRole > 3) {
 
-    if (role === 'confirm') {
-      console.log(`Hello, ${data}!`);
+      this.productService.product = this.productCard
+      this.router.navigateByUrl('VisiteurMenu/Produit')    
+
+    } else {
+      
+          this.productService.product = this.productCard
+          const modal = await this.modalCtrl.create({
+            component: ProductViewComponent
+          });
+          modal.present();
+      
+          const { data, role } = await modal.onWillDismiss();
+      
+          if (role === 'confirm') {
+            console.log(`Hello, ${data}!`);
+          }
+
     }
+    
   }
 
   addProductToCart = (product: Product) => {

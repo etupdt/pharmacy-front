@@ -113,6 +113,13 @@ const routes: Routes = [
           icon: 'mail',
         }
       },
+      {
+        path: 'Roles',
+        component: BrandsComponent,
+        data: {
+          icon: 'mail',
+        }
+      },
     ]
   },
   {

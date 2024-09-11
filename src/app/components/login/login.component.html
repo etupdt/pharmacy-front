@@ -10,14 +10,12 @@
 <ion-content fullscreen [formGroup]="loginForm">
   <div>
     <ion-list>
-      <ion-item lines="none">
-        <h3>{{
-          getAuthenticatedEmail ?
-            'Confirmez la déconnexion' :
-            'Veuillez saisir vos identifiants'
-          }}
-        </h3>
-      </ion-item>
+      <h3>{{
+        getAuthenticatedEmail ?
+          'Confirmez la déconnexion' :
+          'Veuillez saisir vos identifiants'
+        }}
+      </h3>
       <ion-item>
         <ion-input
           formControlName="email"
@@ -41,7 +39,7 @@
           clearInput
         ></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="typeLogin === 'register'">
         <ion-input
           formControlName="confirmpassword"
           label="Confirme password"
@@ -53,6 +51,7 @@
           clearInput
         ></ion-input>
       </ion-item>
+      <a href="#" (click)="toggleType()">{{ typeLogin === 'login' ? 'Pas encore inscrit ?' : 'Déjà client ?'}}</a>
       <ion-item lines="none">
         <ion-button (click)="connect()">{{getAuthenticatedEmail ? 'Déconnexion' : 'Connexion'}}</ion-button>
       </ion-item>
