@@ -45,6 +45,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { ProductComponent } from './components/product/product.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ProductViewCardComponent } from './components/product-view-card/product-view-card.component';
+import { RolesComponent } from './components/roles/roles.component';
 
 registerLocaleData(localeFr);
 
@@ -66,6 +67,7 @@ registerLocaleData(localeFr);
     ClientMenuComponent,
     ClientComponent,
     CommandsComponent,
+    RolesComponent,
     IsAdminDirective,
     IsEmployeeDirective,
     IsClientDirective,

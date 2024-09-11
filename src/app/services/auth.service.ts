@@ -1,6 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { Client } from '../entities/client';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -12,18 +10,16 @@ import { Role } from '../enums/role';
 export class AuthService {
 
   email?: string
-  role: Role = Role.VISITOR
+  role!: Role
   signalRoleUpdated = signal(this.role)
-
-  rolesList: string[] = []
 
   menuIndex: number = 0
   signalMenuIndexUpdated = signal(this.menuIndex)
 
-  menuTabs: {path: string, option: number, roleLevel: Role}[] = [
-    {path: 'VisiteurMenu', option: 0, roleLevel: Role.USER},
-    {path: 'ClientMenu', option: 0, roleLevel: Role.CLIENT},
-    {path: 'AdminMenu', option: 0, roleLevel: Role.EMPLOYEE}
+  menuTabs: {path: string, option: number, roleLevel: number}[] = [
+    {path: 'VisiteurMenu', option: 0, roleLevel: 0},
+    {path: 'ClientMenu', option: 0, roleLevel: 1},
+    {path: 'AdminMenu', option: 0, roleLevel: 2}
   ]
   signalmenuTabsUpdated = signal(this.menuTabs)
 
@@ -33,11 +29,6 @@ export class AuthService {
   constructor(
     private http: HttpClient,
   ) {
-    for (let role in Role) {
-      if (isNaN(Number(role))) {
-        this.rolesList.push(role)
-      }
-    }
   }
 
   login = (email: string, password: string): Observable<any> => {
@@ -47,15 +38,11 @@ export class AuthService {
     )
   }
 
-  set setRole(roles: String) {
-    let roleFinal: Role = Role.USER
-    roles.replace(/\[|\]|"|ROLE_/g, '').split(',').forEach(role => {
-      console.log(role)
-      const index =  this.rolesList.findIndex(roleInter => roleInter === role)
-      roleFinal = roleFinal < index ? index : roleFinal
-    })
-    this.role = roleFinal
-    this.signalRoleUpdated.set(roleFinal)
+  register = (email: string, password: string): Observable<any> => {
+    return this.http.post(
+      environment.useBackendApi + `/auth/register`,
+      {email: email, password: password}
+    )
   }
 
 }
