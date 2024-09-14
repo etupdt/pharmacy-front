@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ProductsComponent } from './components/products/products.component';
 import { FilterProductPipe } from './pipes/filter-product.pipe';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { CartComponent } from './components/cart/cart.component';
 import { EvenementsPageComponent } from './components/evenements-page/evenements-page.component';
 import { OnSiteServicesComponent } from './components/on-site-services/on-site-services.component';
@@ -46,6 +46,8 @@ import { ProductComponent } from './components/product/product.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ProductViewCardComponent } from './components/product-view-card/product-view-card.component';
 import { RolesComponent } from './components/roles/roles.component';
+import { JwtInterceptor } from '@auth0/angular-jwt';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 registerLocaleData(localeFr);
 
@@ -103,6 +105,11 @@ registerLocaleData(localeFr);
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LOCALE_ID, useValue: 'fr-FR'},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 

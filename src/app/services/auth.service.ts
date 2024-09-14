@@ -10,7 +10,7 @@ import { Role } from '../enums/role';
 export class AuthService {
 
   email?: string
-  role!: Role
+  role: Role = Role.VISITOR
   signalRoleUpdated = signal(this.role)
 
   menuIndex: number = 0

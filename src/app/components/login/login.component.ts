@@ -6,6 +6,7 @@ import { Client } from 'src/app/entities/client';
 import { Role } from 'src/app/enums/role';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClientService } from 'src/app/services/client.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
@@ -103,6 +104,7 @@ export class LoginComponent implements OnInit {
       this.authService.role = Role.VISITOR
       this.authService.signalRoleUpdated.set(this.authService.role)
       this.authService.email = undefined
+      localStorage.removeItem('pharmacy_token')
       this.clientService.signalClientUpdated.set(this.clientService.clientInit)
       this.authService.menuIndex = 0
       this.authService.signalMenuIndexUpdated.set(0)
@@ -116,11 +118,7 @@ export class LoginComponent implements OnInit {
         ).subscribe({
           next: (res: any) => {
             this.clientService.client = new Client().deserialize(res.user)
-            this.authService.email = this.loginForm.get("email")!.value
-            localStorage.setItem('pharmacy_token', res.auth.token)!
-            this.stringRole = res.auth.role
-            this.authService.role = Role[this.stringRole]
-            this.authService.signalRoleUpdated.set(this.authService.role)
+            this.processToken(res.auth.token)
             this.clientService.signalClientUpdated.set(this.clientService.client)
             this.presentToast('middle', 'Vous êtes maintenant authentifié', 1500)
             this.back()
@@ -138,11 +136,7 @@ export class LoginComponent implements OnInit {
           next: (res: any) => {
             this.clientService.client = new Client().deserialize(this.clientService.clientInit)
             this.clientService.client.setId = res.id
-            this.clientService.client.setEmail = res.email
-            localStorage.setItem('pharmacy_token', res.auth.token)!
-            this.authService.email = res.email
-            this.authService.role = Role.CLIENT
-            this.authService.signalRoleUpdated.set(this.authService.role)
+            this.processToken(res.token)
             this.clientService.signalClientUpdated.set(this.clientService.client)
             this.presentToast('middle', 'Vous êtes maintenant authentifié. Pensez à  renseigner vos cooronnées dans l\'option Client', 1500)
             this.back()
@@ -172,6 +166,17 @@ export class LoginComponent implements OnInit {
     });
 
     await toast.present();
+  }
+
+  processToken(token: string) {
+    const helper = new JwtHelperService();
+    localStorage.setItem('pharmacy_token', token)
+    const jsonToken = helper.decodeToken(token)
+    this.clientService.client.setEmail = jsonToken.email
+    this.authService.email = jsonToken.email
+    this.stringRole = jsonToken.role
+    this.authService.role = Role[this.stringRole]
+    this.authService.signalRoleUpdated.set(this.authService.role)
   }
 
   get getEmail () {return this.loginForm.get("email")!.value}

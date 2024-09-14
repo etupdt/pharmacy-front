@@ -156,7 +156,9 @@ export class AppComponent implements OnInit {
     return total === 0 ? '' : total
   }
   get getFilters() {return this.productService.filters}
-  get getRole() {return this.authService.role}
+  get getRole() {
+    return this.authService.role
+  }
   get getAuthenticatedEmail() {return this.authService.email}
   get getBrands() {return this.brandService.brands}
   get getProductTypes() {return this.productService.productTypes}

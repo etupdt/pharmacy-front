@@ -67,6 +67,8 @@ export class ProductsComponent implements OnInit{
 
   getProducts = () => {
 
+    this.productService.products = []
+  
     this.productService.getProducts().subscribe({
       next: (res: any) => {
         let products: Product[] = []
@@ -75,8 +77,9 @@ export class ProductsComponent implements OnInit{
         })
         this.productService.products = products
       },
-      error: (error: { error: { message: any; }; }) => {
-        this.presentToast('middle', error.error.message, 800)
+      error: (error: any) => {
+        // console.log(error)
+        // this.presentToast('middle', error.statusText, 3000)
       }
     })
 
