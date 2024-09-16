@@ -120,11 +120,14 @@ export class LoginComponent implements OnInit {
             this.clientService.client = new Client().deserialize(res.user)
             this.processToken(res.auth.token)
             this.clientService.signalClientUpdated.set(this.clientService.client)
+            this.stringRole = res.user.role
+            this.authService.role = Role[this.stringRole]
+            this.authService.signalRoleUpdated.set(this.authService.role)
             this.presentToast('middle', 'Vous êtes maintenant authentifié', 1500)
             this.back()
           },
-          error: (error: { error: { message: any; }; }) => {
-            this.presentToast('middle', error.error.message, 800)
+          error: (error: any) => {
+            this.presentToast('middle', error.message, 800)
             return
           }
         })
@@ -138,12 +141,13 @@ export class LoginComponent implements OnInit {
             this.clientService.client.setId = res.id
             this.processToken(res.token)
             this.clientService.signalClientUpdated.set(this.clientService.client)
+            this.authService.role = Role.CLIENT
+            this.authService.signalRoleUpdated.set(this.authService.role)
             this.presentToast('middle', 'Vous êtes maintenant authentifié. Pensez à  renseigner vos cooronnées dans l\'option Client', 1500)
             this.back()
           },
-          error: (error: { error: { message: any; }; }) => {
-            console.log(error)
-            this.presentToast('middle', error.error.message, 800)
+          error: (error: any) => {
+            this.presentToast('middle', error.message, 800)
             return
           }
         })
@@ -174,9 +178,6 @@ export class LoginComponent implements OnInit {
     const jsonToken = helper.decodeToken(token)
     this.clientService.client.setEmail = jsonToken.email
     this.authService.email = jsonToken.email
-    this.stringRole = jsonToken.role
-    this.authService.role = Role[this.stringRole]
-    this.authService.signalRoleUpdated.set(this.authService.role)
   }
 
   get getEmail () {return this.loginForm.get("email")!.value}

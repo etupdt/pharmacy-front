@@ -97,7 +97,6 @@ export class ProductsComponent implements OnInit{
 
   get getDetail () {return this.productService.detail}
   get getFilters() {return this.productService.filters}
-  get getRefresh() {return this.productService.refresh}
   get getProductsFromService() {return this.productService.products}
   get getRole() {return this.authService.role}
   get getRefreshUpdate() {

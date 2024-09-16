@@ -65,36 +65,36 @@ export class AppComponent implements OnInit {
 
   checkBrand = (index: number) => {
     this.brandService.brands[index].checked= !this.brandService.brands[index].checked
-    this.productService.refresh++
+    this.refresh()
   }
 
   checkBrands = () => {
     this.brandsChecked = !this.brandsChecked
     this.brandService.brands.forEach(brand => brand.checked = this.brandsChecked)
-    this.productService.refresh++
+    this.refresh()
   }
 
   checkProductTypes = () => {
     this.productTypesChecked = !this.productTypesChecked
     this.productService.productTypes.forEach(productTypes => productTypes.checked = this.productTypesChecked)
-    this.productService.refresh++
+    this.refresh()
   }
 
   checkType = (index: number) => {
     this.productService.productTypes[index].checked= !this.productService.productTypes[index].checked
-    this.productService.refresh++
+    this.refresh()
   }
 
   onResetPrice = () => {
     this.getFilters[0].startValue = this.getFilters[0].inf
     this.getFilters[0].endValue = this.getFilters[0].sup
-    this.productService.refresh++
+    this.refresh()
   }
 
   onTerminalsPriceChange = (event: Event) => {
     this.getFilters[0].startValue = ((event as RangeCustomEvent).detail.value as {lower: number, upper: number}).lower
     this.getFilters[0].endValue = ((event as RangeCustomEvent).detail.value as {lower: number, upper: number}).upper
-    this.productService.refresh++
+    this.refresh()
   }
 
   navigateTo = (index: number) => {
@@ -146,6 +146,11 @@ export class AppComponent implements OnInit {
     if (role === 'confirm') {
       console.log(`Hello, ${data}!`);
     }
+  }
+
+  refresh = () => {
+    this.productService.refreshUpdate++
+    this.productService.signalRefresUpdateUpdated.set(this.productService.refreshUpdate)
   }
 
   get getRoutes() { return this.router.config[this.authService.menuIndex].children!.filter(r => r.path !== '**')}

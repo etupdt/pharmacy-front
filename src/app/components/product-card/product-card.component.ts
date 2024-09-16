@@ -180,7 +180,8 @@ export class ProductCardComponent  implements OnInit, OnChanges {
     this.productService.signalRefresUpdateUpdated.set(this.productService.refreshUpdate)
   }
 
-  get getRole() {return this.authService.role}
+  get getRole() {
+    return this.authService.role}
   get getMenuIndex() {return this.authService.menuIndex}
   get getMenuTabs() {return this.authService.menuTabs}
   get getProduct() {return this.productService.product}
