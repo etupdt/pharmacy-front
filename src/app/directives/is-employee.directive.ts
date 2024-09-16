@@ -13,7 +13,6 @@ export class IsEmployeeDirective {
 
   @Input()
   set isemployee(role: Role) {
-
     if (role < Role.EMPLOYEE) {
       this.viewContainer.clear()
     } else {

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Brand } from 'src/app/entities/brand';
+import { Role } from 'src/app/enums/role';
 import { AuthService } from 'src/app/services/auth.service';
 import { BrandService } from 'src/app/services/brand.service';
 import { environment } from 'src/environments/environment';
@@ -45,7 +46,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
   }
 
   editImage = () => {
-    if (this.getRole >= 3) {
+    if (this.getRole >= Role.ADMIN) {
       if (this.imageEditing === this.brandCard.getId)
         this.cardIdSelected.emit(-1)
       else

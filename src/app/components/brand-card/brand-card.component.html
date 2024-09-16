@@ -9,7 +9,7 @@
         <ion-card-title class="ion-text-wrap">
           <input type="text"
             [(ngModel)]="name"
-            [disabled]="getRole < 3 || imageEditing !== brandCard.getId"
+            [disabled]="getRole < 2 || imageEditing !== brandCard.getId"
             placeholder="Nom de la marque"
             (ngModelChange)="checkIsUpdated()"
           >

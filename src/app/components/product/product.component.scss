@@ -2,8 +2,9 @@ ion-content {
 
     --padding-top: 50px;
   
-    h2 {
-      margin-left: 20px;
+    h3 {
+      width: 100%;
+      text-align: center;
     }
 
     .views {
@@ -31,6 +32,7 @@ ion-content {
       .div-cropper {
 
         display: flex;
+        justify-content: center;
 
         .champs {
           width: 60%;
@@ -50,6 +52,12 @@ ion-content {
           flex-direction: column;
         }
 
+      }
+
+      .page-buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
       }
 
     }
