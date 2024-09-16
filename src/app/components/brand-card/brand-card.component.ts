@@ -174,7 +174,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
     }
   }
 
-  set setImageToDisplay (image: string) {this.imageToDisplay = image === '' ? this.backendImages + 'defaultBrand.png' :  this.backendImages + '/brands/' + image}
+  set setImageToDisplay (image: string) {this.imageToDisplay = image === '' ? this.backendImages + '/brands/' + 'default.webp' :  this.backendImages + '/brands/' + image}
 
   refresh = () => {
     this.brandService.refreshUpdate++

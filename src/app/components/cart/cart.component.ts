@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CartComponent  implements OnInit {
 
-  backendImages = environment.useBackendImages
+  backendImages = environment.useBackendApi + '/assets/images/'
 
   constructor(
     private productService: ProductService,
