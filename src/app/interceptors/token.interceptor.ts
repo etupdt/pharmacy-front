@@ -57,6 +57,10 @@ export class TokenInterceptor implements HttpInterceptor {
               message = 'Habilitations insuffisantes pour effectuer cette opération !'
               break;
             }
+            case 404: {
+              message = 'Elémet non trouvé !'
+              break;
+            }
             case 500: {
               message = 'Erreur du serveur !'
               break;

@@ -14,7 +14,7 @@
     ></app-button>
     </ion-item>
     <div>
-      <div *ngFor="let product of (getProductsFromService | isUpdated:getRefreshUpdate | filterProduct:getRefresh)">
+      <div *ngFor="let product of (getProductsFromService | isUpdated:getRefreshUpdate | filterProduct:getRefreshUpdate)">
         <app-product-card [productCard]="product" [displayIcon]="'cache'"></app-product-card>
       </div>
     </div>
