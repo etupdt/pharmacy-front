@@ -113,7 +113,7 @@ export class OnSiteServiceComponent  implements OnInit {
     if (typeof this.displayedImage === 'string') {
 
       if (this.displayedImage === '') {
-        this.displayedImage = 'Soins_du_visage.jpg'
+        this.displayedImage = 'default.webp'
       }
 
       this.imageService.getImage(this.urlImages + this.displayedImage).subscribe({

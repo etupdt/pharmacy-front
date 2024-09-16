@@ -182,7 +182,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
     }
   }
 
-  set setImageToDisplay (image: string) {this.imageToDisplay = image === '' ? this.backendImages + 'onsiteservices/Soins_du_visage.jpg' :  this.backendImages + '/onsiteservices/' + image}
+  set setImageToDisplay (image: string) {this.imageToDisplay = image === '' ? this.backendImages + 'onsiteservices/default.webp' :  this.backendImages + '/onsiteservices/' + image}
 
   refresh = () => {
     this.onSiteServiceService.refreshUpdate++
