@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class BrandCardComponent  implements OnInit, OnChanges {
 
-  @Input() imageEditing: number = -1
+  @Input() imageEditing!: number
   @Input() brandCard!: Brand
   @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
 
@@ -26,6 +26,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
   imageToDisplay!: string
 
   isUpdated: boolean = false
+  imageUpdating: boolean = false
 
   backendImages = environment.useBackendApi + '/assets/images/'
 
@@ -45,12 +46,14 @@ export class BrandCardComponent  implements OnInit, OnChanges {
 
   }
 
-  editImage = () => {
+  toggleEditImage = () => {
     if (this.getRole >= Role.ADMIN) {
-      if (this.imageEditing === this.brandCard.getId)
+      if (this.imageEditing === this.brandCard.getId) {
         this.cardIdSelected.emit(-1)
-      else
+        this.imageUpdating = false
+      } else {
         this.cardIdSelected.emit(this.brandCard.getId)
+      }
     }
   }
 
@@ -98,7 +101,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
 
   reinitBrand = () => {
 
-    this.cardIdSelected.emit(-1)
+    // this.cardIdSelected.emit(-1)
 
     this.name = this.brandCard.getBrandName
     this.imagePath = this.brandCard.getImagePath

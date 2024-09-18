@@ -41,6 +41,7 @@ export class BrandsComponent implements OnInit {
   }
 
   addBrand = () => {
+    this.cardIdSelected = 0
     this.brandService.brands.push(Brand.deserialize({
       id: 0,
       brandName: '',

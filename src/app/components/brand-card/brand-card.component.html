@@ -2,7 +2,7 @@
   <ion-card *ngIf="brandCard">
     <img
       src="{{ imageToDisplay }}" alt="Selectionnez une image"
-      (click)="editImage();$event.stopPropagation()"
+      (click)="imageUpdating = imageEditing === brandCard.getId ? !imageUpdating : false"
     />
     <ion-list class="{{imageEditing !== brandCard.getId ? '' : 'hover'}}">
       <ion-item lines="none">
@@ -14,24 +14,47 @@
             (ngModelChange)="checkIsUpdated()"
           >
         </ion-card-title>
-        <div *ngIf="imageEditing === brandCard.getId" class="div-icon">
+        <div class="div-icon">
           <ion-icon name="refresh-outline"
             *isadmin="getRole"
             [ngClass]="isUpdated ? '' : 'cache'"
             slot="end"
+            alt="Réinitialiser"
+            title="Réinitialiser"
             (click)="reinitBrand()"
+          ></ion-icon>
+          <ion-icon name="close-outline"
+            *isadmin="getRole"
+            [ngClass]="(imageEditing === brandCard.getId && imageEditing !== 0) ? '' : 'cache'"
+            slot="end"
+            alt="Abandonner"
+            title="Abandonner"
+            (click)="reinitBrand();toggleEditImage();$event.stopPropagation()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
             [ngClass]="isUpdated ? '' : 'cache'"
             slot="end"
             name="pencil-outline"
+            alt="Enregistrer"
+            title="Enregistrer"
             (click)="saveBrand()"
+          ></ion-icon>
+          <ion-icon
+            *isadmin="getRole"
+            [ngClass]="!(imageEditing === brandCard.getId) ? '' : 'cache'"
+            slot="end"
+            name="create-outline"
+            alt="Modifier"
+            title="Modifier"
+            (click)="toggleEditImage();$event.stopPropagation()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
             slot="end"
             name="trash-outline"
+            alt="Supprimer"
+            title="Supprimer"
             (click)="deleteBrand()"
           ></ion-icon>
         </div>
@@ -39,7 +62,7 @@
     </ion-list>
   </ion-card>
   <app-brand
-    *ngIf="getRole >= 3 && imageEditing === brandCard.getId"
+    *ngIf="getRole >= 3 && imageEditing === brandCard.getId && imageUpdating"
     [displayedImage]="imagePath"
     (selectedImage)="onSelectImage($event)"
     [urlImages]="backendImages"
