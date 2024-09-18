@@ -21,6 +21,7 @@ const routes: Routes = [
     path: 'VisiteurMenu',
     component: VisitorMenuComponent,
     data: {
+      name: 'Visiteur',
       icon: 'archive',
     },
     children: [
@@ -66,6 +67,7 @@ const routes: Routes = [
     path: 'ClientMenu',
     component: ClientMenuComponent,
     data: {
+      name: 'Client',
       icon: 'archive',
     },
     children: [
@@ -96,6 +98,7 @@ const routes: Routes = [
     path: 'AdminMenu',
     component: AdminMenuComponent,
     data: {
+      name: 'Admin',
       icon: 'archive',
     },
     children: [

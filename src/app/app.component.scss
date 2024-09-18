@@ -69,14 +69,14 @@ ion-list-header {
 }
 
 ion-list-header {
-  font-size: 18px;
+  font-size: 1.5rem;
   font-weight: 600;
 
   min-height: 20px;
 }
 
 ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
+  font-size: 1.3rem;
 
   margin: 18px 0;
 
@@ -131,7 +131,7 @@ ion-menu.ios ion-item.selected ion-icon {
 }
 
 ion-menu.ios ion-item ion-icon {
-  font-size: 24px;
+  font-size: 2rem;
   color: #73849a;
 }
 
@@ -151,7 +151,7 @@ ion-menu.ios ion-note {
 
 ion-note {
   display: inline-block;
-  font-size: 16px;
+  font-size: 1.3rem;
 //  margin-top: 10px;
   color: var(--ion-color-medium-shade);
 }
