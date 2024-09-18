@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { InputCustomEvent, ToastController } from '@ionic/angular';
 import { Dimensions, ImageCroppedEvent, ImageCropperComponent, ImageTransform, LoadedImage } from 'ngx-image-cropper';
-import { OnSiteService } from 'src/app/entities/on-site-service';
 import { ImageService } from 'src/app/services/image.service';
-import { OnSiteServiceService } from 'src/app/services/on-site-service.service';
-import { environment } from 'src/environments/environment';
 import 'hammerjs';
 
 @Component({

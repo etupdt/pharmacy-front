@@ -21,15 +21,7 @@
             slot="end"
             alt="Réinitialiser"
             title="Réinitialiser"
-            (click)="reinitOnSiteService()"
-          ></ion-icon>
-          <ion-icon name="close-outline"
-            *isadmin="getRole"
-            [ngClass]="(imageEditing === onSiteServiceCard.getId && imageEditing !== 0) ? '' : 'cache'"
-            slot="end"
-            alt="Abandonner"
-            title="Abandonner"
-            (click)="reinitOnSiteService();toggleEditImage();$event.stopPropagation()"
+            (click)="onReinitOnSiteService()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
@@ -40,6 +32,14 @@
             title="Enregistrer"
             (click)="saveOnSiteService()"
           ></ion-icon>
+          <ion-icon name="close-outline"
+            *isadmin="getRole"
+            [ngClass]="(imageEditing === onSiteServiceCard.getId && imageEditing !== 0) ? '' : 'cache'"
+            slot="end"
+            alt="Abandonner"
+            title="Abandonner"
+            (click)="onCancelOnSiteService()"
+          ></ion-icon>
           <ion-icon
             *isadmin="getRole"
             [ngClass]="!(imageEditing === onSiteServiceCard.getId) ? '' : 'cache'"
@@ -48,14 +48,14 @@
             alt="Modifier"
             title="Modifier"
             (click)="toggleEditImage();$event.stopPropagation()"
-            ></ion-icon>
+          ></ion-icon>
           <ion-icon
             *isadmin="getRole"
             slot="end"
             name="trash-outline"
             alt="Supprimer"
             title="Supprimer"
-            (click)="deleteOnSiteService()"
+            (click)="onDeleteOnSiteService()"
           ></ion-icon>
         </div>
       </ion-item>
@@ -83,7 +83,7 @@
           (ngModelChange)="checkIsUpdated()"
           placeholder="Durée de la prestation en"
         >
-    </div>
+      </div>
     </ion-list>
   </ion-card>
   <app-on-site-service
