@@ -108,7 +108,7 @@ export class BrandComponent  implements OnInit {
     if (typeof this.displayedImage === 'string') {
 
       if (this.displayedImage === '') {
-        this.displayedImage = 'defaultBrand.png'
+        this.displayedImage = 'default.webp'
       }
 
       this.imageService.getImage(this.urlImages + 'brands/' + this.displayedImage).subscribe({
