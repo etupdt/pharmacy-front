@@ -59,52 +59,71 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
 
   saveOnSiteService = () => {
 
-    this.onSiteServiceCard.setOnSiteServiceName = this.name
-    this.onSiteServiceCard.setDescription = this.description
-    this.onSiteServiceCard.setPrice = +this.priceToDisplay
-    this.onSiteServiceCard.setDuree = this.duree ? this.duree : 0
+    this.validationToast('middle', 'Voulez vous réellement sauvegarder les modifications effectuées sur cette prestation ?', () => {
 
-    this.cardIdSelected.emit(-1)
+      this.onSiteServiceCard.setOnSiteServiceName = this.name
+      this.onSiteServiceCard.setDescription = this.description
+      this.onSiteServiceCard.setPrice = +this.priceToDisplay
+      this.onSiteServiceCard.setDuree = this.duree ? this.duree : 0
 
-    const index = this.onSiteServiceService.onSiteServices.findIndex(onSiteService => onSiteService.getId === this.onSiteServiceCard.getId)
+      this.cardIdSelected.emit(-1)
 
-    if (this.onSiteServiceCard.getId === 0) {
+      const index = this.onSiteServiceService.onSiteServices.findIndex(onSiteService => onSiteService.getId === this.onSiteServiceCard.getId)
 
-      this.onSiteServiceService.postOnSiteService(this.onSiteServiceCard, this.imagePath).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'La prestation a été créée', 800)
-          this.onSiteServiceCard = OnSiteService.deserialize(res)
-          this.onSiteServiceService.onSiteServices[index] = this.onSiteServiceCard
-          this.reinitOnSiteService()
-          this.refresh()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+      if (this.onSiteServiceCard.getId === 0) {
 
-    } else {
+        this.onSiteServiceService.postOnSiteService(this.onSiteServiceCard, this.imagePath).subscribe({
+          next: (res: any) => {
+            this.presentToast('middle', 'La prestation a été créée', 800)
+            this.onSiteServiceCard = OnSiteService.deserialize(res)
+            this.onSiteServiceService.onSiteServices[index] = this.onSiteServiceCard
+            this.reinitOnSiteService()
+            this.refresh()
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+          }
+        })
 
-      this.onSiteServiceService.putOnSiteService(this.onSiteServiceCard, this.imagePath).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'La prestation a été mise à jour', 800)
-          this.onSiteServiceService.onSiteServices.splice(index, 1)
-          this.onSiteServiceCard = OnSiteService.deserialize(res)
-          this.onSiteServiceService.onSiteServices.push(this.onSiteServiceCard)
-          this.refresh()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+      } else {
 
-    }
+        this.onSiteServiceService.putOnSiteService(this.onSiteServiceCard, this.imagePath).subscribe({
+          next: (res: any) => {
+            this.presentToast('middle', 'La prestation a été mise à jour', 800)
+            this.onSiteServiceService.onSiteServices.splice(index, 1)
+            this.onSiteServiceCard = OnSiteService.deserialize(res)
+            this.onSiteServiceService.onSiteServices.push(this.onSiteServiceCard)
+            this.refresh()
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+          }
+        })
+
+      }
+    })
 
   }
 
-  reinitOnSiteService = () => {
+  onCancelOnSiteService = () => {
 
-    // this.cardIdSelected.emit(-1)
+    if (this.isUpdated) {
+      this.onReinitOnSiteService()
+    } else {
+      this.toggleEditImage()
+    }
+    
+  }
+
+  onReinitOnSiteService = () => {
+
+    this.validationToast('middle', 'Voulez vous abandonner les modifications effectuées sur cette prestation ?', () => {
+      this.reinitOnSiteService()
+    })
+    
+  }
+
+  reinitOnSiteService = () => {
 
     this.name = this.onSiteServiceCard.getOnSiteServiceName
     this.description = this.onSiteServiceCard.getDescription
@@ -112,9 +131,17 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
     this.duree = this.onSiteServiceCard.getDuree
     this.imagePath = this.onSiteServiceCard.getImagePath
     this.setImageToDisplay = this.onSiteServiceCard.getImagePath
-
+    
     this.checkIsUpdated()
 
+  }
+
+  onDeleteOnSiteService = () => {
+    if (this.imageEditing !== 0 || this.isUpdated) {
+      this.validationToast('middle', 'Voulez vous définitivement supprimer cette prestation ?', this.deleteOnSiteService)
+    } else {
+      this.deleteOnSiteService()
+    }
   }
 
   deleteOnSiteService = () => {
@@ -125,16 +152,16 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
       this.deleteInList(index)
       return
     }
-
+    
     this.onSiteServiceService.deleteOnSiteService(this.onSiteServiceCard.getId).subscribe({
       next: (res: any) => {
-        this.presentToast('middle', 'La prestation a été suprimée', 800)
+        this.presentToast('middle', 'La prestation a été supprimée', 800)
         this.deleteInList(index)
       },
-        error: (error: { error: { message: any; }; }) => {
+      error: (error: { error: { message: any; }; }) => {
       }
     })
-
+        
   }
 
   deleteInList = (index: number) => {
@@ -151,6 +178,31 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
     });
 
     await toast.present();
+  }
+
+  async validationToast(position: 'top' | 'middle' | 'bottom', message: string, callback: Function) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: position,
+      buttons: [{
+        text: 'Oui',
+        side: 'end',
+        role: 'action'
+      },
+      {
+        text: 'Non',
+        side: 'end',
+        role: 'cancel'
+      }]
+    });
+
+    await toast.present()
+    await toast.onDidDismiss().then((value) => {
+      if  (value.role === 'action') {
+        callback()
+      }
+    })
+
   }
 
   checkIsUpdated = () => {
