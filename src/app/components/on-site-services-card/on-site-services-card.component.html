@@ -40,6 +40,7 @@
         [(ngModel)]="description"
         [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
         (ngModelChange)="checkIsUpdated()"
+        placeholder="Description de la prestation"
       ></textarea>
       <div class="card-tarif">
         <span class="card-price">&nbsp;€</span>
@@ -48,6 +49,7 @@
           class="card-price {{imageEditing !== onSiteServiceCard.getId ? '' : 'hover'}}"
           [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
           (ngModelChange)="priceToDisplay=$event; checkIsUpdated()"
+          placeholder="Prix"
         >
         <span class="card-duree-unit">&nbsp;minutes&nbsp;=> </span>
         <input
@@ -56,6 +58,7 @@
           [(ngModel)]="duree"
           [disabled]="getRole < 3 || imageEditing !== onSiteServiceCard.getId"
           (ngModelChange)="checkIsUpdated()"
+          placeholder="Durée de la prestation en"
         >
     </div>
     </ion-list>

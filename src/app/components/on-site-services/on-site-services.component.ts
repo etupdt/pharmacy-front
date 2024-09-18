@@ -43,6 +43,7 @@ export class OnSiteServicesComponent implements OnInit {
   }
 
   addOnSiteService = () => {
+    this.cardIdSelected = 0
     this.onSiteServiceService.onSiteServices.push(OnSiteService.deserialize({
       id: 0,
       onSiteServiceName: '',
