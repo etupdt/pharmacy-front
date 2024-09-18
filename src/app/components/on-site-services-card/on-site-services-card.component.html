@@ -2,7 +2,7 @@
   <ion-card *ngIf="onSiteServiceCard">
     <img
       src="{{ imageToDisplay }}" alt="Selectionnez une image"
-      (click)="editImage();$event.stopPropagation()"
+      (click)="imageUpdating = imageEditing === onSiteServiceCard.getId ? !imageUpdating : false"
     />
     <ion-list class="{{imageEditing !== onSiteServiceCard.getId ? '' : 'hover'}}">
       <ion-item lines="none">
@@ -14,24 +14,47 @@
             (ngModelChange)="checkIsUpdated()"
           >
         </ion-card-title>
-        <div *ngIf="imageEditing === onSiteServiceCard.getId" class="div-icon">
+        <div *ngIf="imageEditing === onSiteServiceCard.getId || true" class="div-icon">
           <ion-icon name="refresh-outline"
             *isadmin="getRole"
             [ngClass]="isUpdated ? '' : 'cache'"
             slot="end"
+            alt="Abandonner"
+            title="Abandonner"
             (click)="reinitOnSiteService()"
+          ></ion-icon>
+          <ion-icon name="close-outline"
+            *isadmin="getRole"
+            [ngClass]="(imageEditing === onSiteServiceCard.getId && imageEditing !== 0) ? '' : 'cache'"
+            slot="end"
+            alt="Abandonner"
+            title="Abandonner"
+            (click)="reinitOnSiteService();toggleEditImage();$event.stopPropagation()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
             [ngClass]="isUpdated ? '' : 'cache'"
             slot="end"
             name="pencil-outline"
+            alt="Enregistrer"
+            title="Enregistrer"
             (click)="saveOnSiteService()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
+            [ngClass]="!(imageEditing === onSiteServiceCard.getId) ? '' : 'cache'"
+            slot="end"
+            name="create-outline"
+            alt="Supprimer"
+            title="Supprimer"
+            (click)="toggleEditImage();$event.stopPropagation()"
+            ></ion-icon>
+          <ion-icon
+            *isadmin="getRole"
             slot="end"
             name="trash-outline"
+            alt="Supprimer"
+            title="Supprimer"
             (click)="deleteOnSiteService()"
           ></ion-icon>
         </div>
@@ -64,7 +87,7 @@
     </ion-list>
   </ion-card>
   <app-on-site-service
-    *ngIf="getRole >= 3 && imageEditing === onSiteServiceCard.getId"
+    *ngIf="getRole >= 3 && imageEditing === onSiteServiceCard.getId && imageUpdating"
     [displayedImage]="imagePath"
     (selectedImage)="onSelectImage($event)"
     [urlImages]="backendImages + 'onsiteservices/'"

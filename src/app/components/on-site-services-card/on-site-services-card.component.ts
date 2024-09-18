@@ -25,6 +25,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
   imageToDisplay!: string
 
   isUpdated: boolean = false
+  imageUpdating: boolean = false
 
   backendImages = environment.useBackendApi + '/assets/images/'
 
@@ -44,12 +45,15 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
 
   }
 
-  editImage = () => {
+  toggleEditImage = () => {
     if (this.getRole >= 3) {
-      if (this.imageEditing === this.onSiteServiceCard.getId)
+      if (this.imageEditing === this.onSiteServiceCard.getId) {
         this.cardIdSelected.emit(-1)
-      else
+        this.imageUpdating = false
+      }
+      else {
         this.cardIdSelected.emit(this.onSiteServiceCard.getId)
+      }
     }
   }
 
