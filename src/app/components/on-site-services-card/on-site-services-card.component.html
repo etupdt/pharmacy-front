@@ -14,13 +14,13 @@
             (ngModelChange)="checkIsUpdated()"
           >
         </ion-card-title>
-        <div *ngIf="imageEditing === onSiteServiceCard.getId || true" class="div-icon">
+        <div class="div-icon">
           <ion-icon name="refresh-outline"
             *isadmin="getRole"
             [ngClass]="isUpdated ? '' : 'cache'"
             slot="end"
-            alt="Abandonner"
-            title="Abandonner"
+            alt="Réinitialiser"
+            title="Réinitialiser"
             (click)="reinitOnSiteService()"
           ></ion-icon>
           <ion-icon name="close-outline"
@@ -45,8 +45,8 @@
             [ngClass]="!(imageEditing === onSiteServiceCard.getId) ? '' : 'cache'"
             slot="end"
             name="create-outline"
-            alt="Supprimer"
-            title="Supprimer"
+            alt="Modifier"
+            title="Modifier"
             (click)="toggleEditImage();$event.stopPropagation()"
             ></ion-icon>
           <ion-icon
