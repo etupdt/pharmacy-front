@@ -13,15 +13,15 @@ import { environment } from 'src/environments/environment';
 })
 export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
 
-  @Input() imageEditing: number = -1
+  @Input() imageEditing!: number
   @Input() onSiteServiceCard!: OnSiteService
   @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
 
   name: string = ''
   description: string = ''
   @Input() imagePath!: string
-  priceToDisplay!: string
-  duree: number = 0
+  priceToDisplay: string = ""
+  duree: number | null = null
   imageToDisplay!: string
 
   isUpdated: boolean = false
@@ -58,7 +58,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
     this.onSiteServiceCard.setOnSiteServiceName = this.name
     this.onSiteServiceCard.setDescription = this.description
     this.onSiteServiceCard.setPrice = +this.priceToDisplay
-    this.onSiteServiceCard.setDuree = this.duree
+    this.onSiteServiceCard.setDuree = this.duree ? this.duree : 0
 
     this.cardIdSelected.emit(-1)
 
@@ -100,7 +100,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
 
   reinitOnSiteService = () => {
 
-    this.cardIdSelected.emit(-1)
+    // this.cardIdSelected.emit(-1)
 
     this.name = this.onSiteServiceCard.getOnSiteServiceName
     this.description = this.onSiteServiceCard.getDescription
@@ -155,6 +155,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
       Number(this.onSiteServiceCard.getPrice).toFixed(2) !== this.priceToDisplay ||
       this.onSiteServiceCard.getDuree !== this.duree ||
       this.onSiteServiceCard.getImagePath !== this.imagePath
+      this.duree = this.duree === 0 ? null : this.duree
   }
 
   onSelectImage = (image: string) => {
