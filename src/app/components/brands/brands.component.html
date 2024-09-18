@@ -5,7 +5,7 @@
       *isadmin="getRole"
       lines="none"
     >
-      <ion-button slot="end" (click)="addBrand()">Ajouter</ion-button>
+    <ion-button slot="end" (click)="addBrand()" disabled="{{ cardIdSelected !== -1 }}">Ajouter</ion-button>
     </ion-item>
     <div class="brands">
       <div [ngClass]="'masked'"></div>

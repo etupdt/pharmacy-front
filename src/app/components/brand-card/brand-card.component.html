@@ -21,15 +21,7 @@
             slot="end"
             alt="Réinitialiser"
             title="Réinitialiser"
-            (click)="reinitBrand()"
-          ></ion-icon>
-          <ion-icon name="close-outline"
-            *isadmin="getRole"
-            [ngClass]="(imageEditing === brandCard.getId && imageEditing !== 0) ? '' : 'cache'"
-            slot="end"
-            alt="Abandonner"
-            title="Abandonner"
-            (click)="reinitBrand();toggleEditImage();$event.stopPropagation()"
+            (click)="onReinitBrand()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
@@ -38,7 +30,15 @@
             name="pencil-outline"
             alt="Enregistrer"
             title="Enregistrer"
-            (click)="saveBrand()"
+            (click)="onSaveBrand()"
+          ></ion-icon>
+          <ion-icon name="close-outline"
+            *isadmin="getRole"
+            [ngClass]="(imageEditing === brandCard.getId && imageEditing !== 0) ? '' : 'cache'"
+            slot="end"
+            alt="Abandonner"
+            title="Abandonner"
+            (click)="onCancelBrand()"
           ></ion-icon>
           <ion-icon
             *isadmin="getRole"
@@ -55,7 +55,7 @@
             name="trash-outline"
             alt="Supprimer"
             title="Supprimer"
-            (click)="deleteBrand()"
+            (click)="onDeleteBrand()"
           ></ion-icon>
         </div>
       </ion-item>

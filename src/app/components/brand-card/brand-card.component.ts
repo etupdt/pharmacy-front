@@ -57,57 +57,86 @@ export class BrandCardComponent  implements OnInit, OnChanges {
     }
   }
 
-  saveBrand = () => {
+  onSaveBrand = () => {
 
-    this.brandCard.setBrandName = this.name
+    this.validationToast('middle', 'Voulez vous réellement sauvegarder les modifications effectuées sur cette marque ?', () => {
 
-    this.cardIdSelected.emit(-1)
+      this.brandCard.setBrandName = this.name
 
-    const index = this.brandService.brands.findIndex(brand => brand.getId === this.brandCard.getId)
+      this.cardIdSelected.emit(-1)
 
-    if (this.brandCard.getId === 0) {
+      const index = this.brandService.brands.findIndex(brand => brand.getId === this.brandCard.getId)
 
-      this.brandService.postBrand(this.brandCard, this.imagePath).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'La prestation a été créée', 800)
-          this.brandCard = Brand.deserialize(res)
-          this.brandService.brands[index] = this.brandCard
-          this.reinitBrand()
-          this.refresh()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+      if (this.brandCard.getId === 0) {
 
-    } else {
+        this.brandService.postBrand(this.brandCard, this.imagePath).subscribe({
+          next: (res: any) => {
+            this.presentToast('middle', 'La prestation a été créée', 800)
+            this.brandCard = Brand.deserialize(res)
+            this.brandService.brands[index] = this.brandCard
+            this.reinitBrand()
+            this.refresh()
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+          }
+        })
 
-      this.brandService.putBrand(this.brandCard, this.imagePath).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'La prestation a été mise à jour', 800)
-          this.brandService.brands.splice(index, 1)
-          this.brandCard = Brand.deserialize(res)
-          this.brandService.brands.push(this.brandCard)
-          this.refresh()
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+      } else {
 
-    }
+        this.brandService.putBrand(this.brandCard, this.imagePath).subscribe({
+          next: (res: any) => {
+            this.presentToast('middle', 'La prestation a été mise à jour', 800)
+            this.brandService.brands.splice(index, 1)
+            this.brandCard = Brand.deserialize(res)
+            this.brandService.brands.push(this.brandCard)
+            this.refresh()
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+          }
+        })
+
+      }
+    })
 
   }
 
-  reinitBrand = () => {
+  onCancelBrand = () => {
 
-    // this.cardIdSelected.emit(-1)
+    if (this.isUpdated) {
+      this.onReinitBrand()
+    } else {
+      this.toggleEditImage()
+    }
+    
+  }
+
+  onReinitBrand = () => {
+
+    this.validationToast('middle', 'Voulez vous abandonner les modifications effectuées sur cette marque ?', () => {
+      this.reinitBrand()
+    })
+    
+  }
+
+  reinitBrand = () => {
 
     this.name = this.brandCard.getBrandName
     this.imagePath = this.brandCard.getImagePath
     this.setImageToDisplay = this.brandCard.getImagePath
 
     this.checkIsUpdated()
+
+  }
+
+  onDeleteBrand = () => {
+
+    if (this.imageEditing !== 0 || this.isUpdated) {
+      this.validationToast('middle', 'Voulez vous définitivement supprimer cette marque ?', this.deleteBrand)
+    } else {
+      this.deleteBrand()
+    }
 
   }
 
@@ -122,7 +151,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
 
     this.brandService.deleteBrand(this.brandCard.getId).subscribe({
       next: (res: any) => {
-        this.presentToast('middle', 'La prestation a été suprimée', 800)
+        this.presentToast('middle', 'La prestation a été supprimée', 800)
         this.deleteInList(index)
       },
         error: (error: { error: { message: any; }; }) => {
@@ -145,6 +174,31 @@ export class BrandCardComponent  implements OnInit, OnChanges {
     });
 
     await toast.present();
+  }
+
+  async validationToast(position: 'top' | 'middle' | 'bottom', message: string, callback: Function) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: position,
+      buttons: [{
+        text: 'Oui',
+        side: 'end',
+        role: 'action'
+      },
+      {
+        text: 'Non',
+        side: 'end',
+        role: 'cancel'
+      }]
+    });
+
+    await toast.present()
+    await toast.onDidDismiss().then((value) => {
+      if  (value.role === 'action') {
+        callback()
+      }
+    })
+
   }
 
   checkIsUpdated = () => {
