@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class BrandCardComponent  implements OnInit, OnChanges {
 
-  @Input() imageEditing: number = -1
+  @Input() imageEditing!: number
   @Input() brandCard!: Brand
   @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
 
@@ -98,7 +98,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
 
   reinitBrand = () => {
 
-    this.cardIdSelected.emit(-1)
+    // this.cardIdSelected.emit(-1)
 
     this.name = this.brandCard.getBrandName
     this.imagePath = this.brandCard.getImagePath
