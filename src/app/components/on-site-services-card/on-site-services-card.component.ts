@@ -218,7 +218,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
 
     if (image === "") {
 
-      this.cardIdSelected.emit(-1)
+      this.imageUpdating = false;
 
     } else {
 
