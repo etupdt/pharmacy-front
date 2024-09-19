@@ -40,7 +40,7 @@
               (click)="showLogin()"
             >
                 <ion-icon aria-hidden="true" slot="start" [ios]="getAuthenticatedEmail ? 'log-out' : 'log-in'" [md]="getAuthenticatedEmail ? 'log-out' : 'log-in'"></ion-icon>
-                <ion-label>{{getAuthenticatedEmail ? 'Déconnexion' : 'Connexion'}}</ion-label>
+                <ion-label>{{getAuthenticatedEmail ? getAuthenticatedEmail : 'Connexion'}}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
