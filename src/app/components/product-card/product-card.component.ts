@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
 import { ProductViewComponent } from '../product-view/product-view.component';
+import { ProductType } from 'src/app/enums/product-type';
 
 @Component({
   selector: 'app-product-card',
@@ -29,6 +30,8 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   imageToDisplay!: string
 
   isUpdated: boolean = false
+
+  stringType!: keyof typeof ProductType
 
   backendImages = environment.useBackendApi + '/assets/images/'
 
@@ -185,5 +188,6 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   get getMenuIndex() {return this.authService.menuIndex}
   get getMenuTabs() {return this.authService.menuTabs}
   get getProduct() {return this.productService.product}
+  get productType() {return ProductType[this.productCard.getType]}
 
 }

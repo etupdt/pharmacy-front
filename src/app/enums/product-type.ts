@@ -1,5 +1,5 @@
 export enum ProductType {
-  SOLAIRE,
-  SOIN,
-  NETTOYANT
+  solaire,
+  soin,
+  nettoyant
 }

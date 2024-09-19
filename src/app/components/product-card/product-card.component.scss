@@ -9,7 +9,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: spaces space-between;
+    justify-content: space-between;
     align-items: center;
     margin: 0;
   
@@ -17,6 +17,13 @@
     border-radius: 8px;
     border: solid 1px lightgray;
   
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 8px;
+    }
+
     img {
       width: 200px;
     }
