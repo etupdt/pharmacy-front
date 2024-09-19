@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { BrandService } from 'src/app/services/brand.service';
 import { Brand } from 'src/app/entities/brand';
+import { ProductType } from 'src/app/enums/product-type';
 
 @Component({
   selector: 'app-product',
@@ -20,6 +21,9 @@ export class ProductComponent {
 
   displayedImage: string = "defaultProduct.webp"
   selectedImage!: string
+
+  types = ProductType;
+  stringType!: keyof typeof ProductType
 
   urlImages = environment.useBackendApi + '/assets/images/'
 
@@ -87,6 +91,11 @@ export class ProductComponent {
     this.refresh()
   }
 
+  onChangeType = (event: Event) => {
+    this.productService.product.setType = parseInt((event as InputCustomEvent).detail.value!)
+    this.refresh()
+  }
+
   onChangeName = (event: Event) => {
     this.productService.product.setProductName = (event as InputCustomEvent).detail.value!
     this.refresh()
@@ -133,6 +142,10 @@ export class ProductComponent {
   
   get getBrands() {
     return this.brandService.brands
+  }
+  
+  get getType() {
+    return ProductType[this.getProduct.getType]
   }
   
 }

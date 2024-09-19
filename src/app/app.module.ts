@@ -48,6 +48,7 @@ import { ProductViewCardComponent } from './components/product-view-card/product
 import { RolesComponent } from './components/roles/roles.component';
 import { JwtInterceptor } from '@auth0/angular-jwt';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { FilterStringPipe } from './pipes/filter-string.pipe';
 
 registerLocaleData(localeFr);
 
@@ -84,7 +85,8 @@ registerLocaleData(localeFr);
     ProductViewComponent,
     ButtonComponent,
     ProductViewCardComponent,
-    ImagePipe
+    ImagePipe,
+    FilterStringPipe
   ],
   imports: [
     BrowserModule,

@@ -45,7 +45,6 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log('init product card')
     this.reinitProduct()
   }
 
@@ -188,6 +187,10 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   get getMenuIndex() {return this.authService.menuIndex}
   get getMenuTabs() {return this.authService.menuTabs}
   get getProduct() {return this.productService.product}
-  get productType() {return ProductType[this.productCard.getType]}
+
+  get getType() {
+    return ProductType[this.productCard.getType]
+  }
+  
 
 }
