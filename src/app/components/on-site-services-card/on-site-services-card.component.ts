@@ -119,6 +119,8 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
 
     this.validationToast('middle', 'Voulez vous abandonner les modifications effectuées sur cette prestation ?', () => {
       this.reinitOnSiteService()
+      this.isUpdated = false
+      this.cardIdSelected.emit(-1)
     })
     
   }
@@ -132,7 +134,7 @@ export class OnSiteServicesCardComponent  implements OnInit, OnChanges {
     this.imagePath = this.onSiteServiceCard.getImagePath
     this.setImageToDisplay = this.onSiteServiceCard.getImagePath
     
-    this.checkIsUpdated()
+    this.imageUpdating = false
 
   }
 
