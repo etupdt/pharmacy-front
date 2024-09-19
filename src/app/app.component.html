@@ -39,8 +39,8 @@
               detail="false"
               (click)="showLogin()"
             >
-                <ion-icon aria-hidden="true" slot="start" [ios]="'heart-outline'" [md]="'heart-sharp'"></ion-icon>
-                <ion-label>{{getAuthenticatedEmail ? 'Déconnexion' : 'Connexion'}}</ion-label>
+                <ion-icon aria-hidden="true" slot="start" [ios]="getAuthenticatedEmail ? 'log-out' : 'log-in'" [md]="getAuthenticatedEmail ? 'log-out' : 'log-in'"></ion-icon>
+                <ion-label>{{getAuthenticatedEmail ? getAuthenticatedEmail : 'Connexion'}}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -118,7 +118,7 @@
         <ion-tabs>
           <ion-tab-bar slot="bottom">
             <ion-tab-button tab="VisiteurMenu" (click)="navigateTo(0)">
-              <ion-icon name="play-circle"></ion-icon>
+              <ion-icon name="person"></ion-icon>
               Visiteur
             </ion-tab-button>
             <ion-tab-button
@@ -126,7 +126,7 @@
               tab="ClientMenu"
               (click)="navigateTo(1)"
             >
-              <ion-icon name="radio"></ion-icon>
+              <ion-icon name="person-add"></ion-icon>
               Client
             </ion-tab-button>
             <ion-tab-button
@@ -134,7 +134,7 @@
               tab="AdminMenu"
               (click)="navigateTo(2)"
             >
-              <ion-icon name="library"></ion-icon>
+              <ion-icon name="build"></ion-icon>
               Admin
             </ion-tab-button>
           </ion-tab-bar>
