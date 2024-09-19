@@ -29,14 +29,14 @@ const routes: Routes = [
         path: 'Accueil',
         component: HomePageComponent,
         data: {
-          icon: 'archive',
+          icon: 'home',
         }
       },
       {
         path: 'Produits',
         component: ProductsComponent,
         data: {
-          icon: 'paper-plane',
+          icon: 'basket',
         },
       },
       {
@@ -47,14 +47,14 @@ const routes: Routes = [
         path: 'Evenements',
         component: EvenementsPageComponent,
         data: {
-          icon: 'trash',
+          icon: 'sunny',
         }
       },
       {
         path: 'Prestations',
         component: OnSiteServicesComponent,
         data: {
-          icon: 'trash',
+          icon: 'construct',
         },
       },
       {
@@ -75,14 +75,14 @@ const routes: Routes = [
         path: 'Compte',
         component: ClientComponent,
         data: {
-          icon: 'mail',
+          icon: 'person-add',
         }
       },
       {
         path: 'Commandes',
         component: CommandsComponent,
         data: {
-          icon: 'mail',
+          icon: 'list',
         }
       },
       {
@@ -106,21 +106,21 @@ const routes: Routes = [
         path: 'Commandes',
         component: CommandsComponent,
         data: {
-          icon: 'mail',
+          icon: 'list',
         }
       },
       {
         path: 'Marques',
         component: BrandsComponent,
         data: {
-          icon: 'mail',
+          icon: 'business',
         }
       },
       {
         path: 'Roles',
         component: BrandsComponent,
         data: {
-          icon: 'mail',
+          icon: 'man',
         }
       },
     ]
