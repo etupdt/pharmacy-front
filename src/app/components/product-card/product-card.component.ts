@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
 import { ProductViewComponent } from '../product-view/product-view.component';
+import { ProductType } from 'src/app/enums/product-type';
 
 @Component({
   selector: 'app-product-card',
@@ -21,6 +22,7 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   @Input() imagePath!: string
   @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
   @Output() imageSelected: EventEmitter<string> = new EventEmitter();
+  @Output() productToUpdate: EventEmitter<number> = new EventEmitter();
 
   name: string = ''
   description: string = ''
@@ -29,6 +31,8 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   imageToDisplay!: string
 
   isUpdated: boolean = false
+
+  stringType!: keyof typeof ProductType
 
   backendImages = environment.useBackendApi + '/assets/images/'
 
@@ -42,7 +46,6 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log('init product card')
     this.reinitProduct()
   }
 
@@ -94,6 +97,11 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   //   }
   // }
 
+  updateProduct() {
+    this.productService.product = this.productCard
+    this.productToUpdate.emit(this.productCard.getId)
+  }
+
   reinitProduct = () => {
 
     this.cardIdSelected.emit(-1)
@@ -108,20 +116,24 @@ export class ProductCardComponent  implements OnInit, OnChanges {
 
   deleteProduct = () => {
 
-    const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
+    this.validationToast('middle', 'Voulez vous définitivement supprimer ce produit ?', () => {
 
-    if (this.productCard.getId === 0) {
-      this.deleteInList(index)
-      return
-    }
-
-    this.productService.deleteProduct(this.productCard.getId).subscribe({
-      next: (res: any) => {
-        this.presentToast('middle', 'La prestation a été suprimée', 800)
+      const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
+  
+      if (this.productCard.getId === 0) {
         this.deleteInList(index)
-      },
-        error: (error: { error: { message: any; }; }) => {
+        return
       }
+  
+      this.productService.deleteProduct(this.productCard.getId).subscribe({
+        next: (res: any) => {
+          this.presentToast('middle', 'La prestation a été suprimée', 800)
+          this.deleteInList(index)
+        },
+          error: (error: { error: { message: any; }; }) => {
+        }
+      })
+
     })
 
   }
@@ -140,6 +152,31 @@ export class ProductCardComponent  implements OnInit, OnChanges {
     });
 
     await toast.present();
+  }
+
+  async validationToast(position: 'top' | 'middle' | 'bottom', message: string, callback: Function) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: position,
+      buttons: [{
+        text: 'Oui',
+        side: 'end',
+        role: 'action'
+      },
+      {
+        text: 'Non',
+        side: 'end',
+        role: 'cancel'
+      }]
+    });
+
+    await toast.present()
+    await toast.onDidDismiss().then((value) => {
+      if  (value.role === 'action') {
+        callback()
+      }
+    })
+
   }
 
   checkIsUpdated = () => {
@@ -185,5 +222,10 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   get getMenuIndex() {return this.authService.menuIndex}
   get getMenuTabs() {return this.authService.menuTabs}
   get getProduct() {return this.productService.product}
+
+  get getType() {
+    return ProductType[this.productCard.getType]
+  }
+  
 
 }

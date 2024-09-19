@@ -65,6 +65,10 @@ export class ProductsComponent implements OnInit{
     this.router.navigateByUrl('VisiteurMenu/Produit')
   }
 
+  onUpdateProduct = (id: number) => {
+    this.router.navigateByUrl('VisiteurMenu/Produit')
+  }
+
   getProducts = () => {
 
     this.productService.products = []

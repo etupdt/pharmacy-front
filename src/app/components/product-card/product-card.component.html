@@ -1,18 +1,23 @@
 <div class="select-image">
   <ion-card expand="block" (click)="showDetail()">
-    <div *ngIf="displayIcon === 'cache'" class="div-icon">
-      <ion-icon name="refresh-outline"
-        *isadmin="getRole"
-        [ngClass]="isUpdated ? '' : 'cache'"
-        slot="end"
-        (click)="reinitProduct();$event.stopPropagation()"
-      ></ion-icon>
-      <ion-icon
-        *isadmin="getRole"
-        slot="end"
-        name="trash-outline"
-        (click)="deleteProduct();$event.stopPropagation()"
-      ></ion-icon>
+    <div class="card-header">
+      <ion-card-title>{{ productCard.getBrand.getName }} {{ getType }}</ion-card-title>
+      <div *ngIf="displayIcon === 'cache'" class="div-icon">
+        <ion-icon
+          *isadmin="getRole"
+          slot="end"
+          name="create-outline"
+          alt="Modifier"
+          title="Modifier"
+          (click)="updateProduct();$event.stopPropagation()"
+        ></ion-icon>
+        <ion-icon
+          *isadmin="getRole"
+          slot="end"
+          name="trash-outline"
+          (click)="deleteProduct();$event.stopPropagation()"
+        ></ion-icon>
+      </div>
     </div>
     <img
       src="{{ imageToDisplay }}" alt="Selectionnez une image"
@@ -27,11 +32,11 @@
     ></app-button>
   </ion-card>
   <app-cropper
-  *ngIf="getRole >= 3 && displayIcon !== 'cache'"
-  [displayedImage]="getProduct.getImagePath"
-  (selectedImage)="onSelectImage($event)"
-  [imageWidth]="350"
-  [aspectRatio]="1 / 1"
-  [urlImages]="backendImages + 'products/'"
+    *ngIf="getRole >= 3 && displayIcon !== 'cache'"
+    [displayedImage]="getProduct.getImagePath"
+    (selectedImage)="onSelectImage($event)"
+    [imageWidth]="350"
+    [aspectRatio]="1 / 1"
+    [urlImages]="backendImages + 'products/'"
   ></app-cropper>
 </div>

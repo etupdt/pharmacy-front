@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { BrandService } from 'src/app/services/brand.service';
 import { Brand } from 'src/app/entities/brand';
+import { ProductType } from 'src/app/enums/product-type';
 
 @Component({
   selector: 'app-product',
@@ -20,6 +21,9 @@ export class ProductComponent {
 
   displayedImage: string = "defaultProduct.webp"
   selectedImage!: string
+
+  types = ProductType;
+  stringType!: keyof typeof ProductType
 
   urlImages = environment.useBackendApi + '/assets/images/'
 
@@ -33,38 +37,41 @@ export class ProductComponent {
 
   saveProduct = () => {
 
-    if (this.productService.product.getId === 0) {
+    this.validationToast('middle', 'Voulez vous réellement sauvegarder ce produit ?', () => {
 
-      this.productService.postProduct(this.productService.product).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'Le produit a été créé', 800)
-          const product = Product.deserialize(res)
-          this.productService.products.push(product)
-          this.router.navigateByUrl('VisiteurMenu/Produits')
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+      if (this.productService.product.getId === 0) {
 
-    } else {
+        this.productService.postProduct(this.productService.product).subscribe({
+          next: (res: any) => {
+            this.presentToast('middle', 'Le produit a été créé', 800)
+            const product = Product.deserialize(res)
+            this.productService.products.push(product)
+            this.router.navigateByUrl('VisiteurMenu/Produits')
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+          }
+        })
 
-      const index = this.productService.products.findIndex((product: Product) => product.getId === this.productService.product.getId)
+      } else {
 
-      this.productService.putProduct(this.productService.product, this.selectedImage).subscribe({
-        next: (res: any) => {
-          this.presentToast('middle', 'Le produit a été mis à jour', 800)
-          this.productService.products.splice(index, 1)
-          const product = Product.deserialize(res)
-          this.productService.products.push(product)
-          this.router.navigateByUrl('VisiteurMenu/Produits')
-        },
-        error: (error: { error: { message: any; }; }) => {
-          this.presentToast('middle', error.error.message, 800)
-        }
-      })
+        const index = this.productService.products.findIndex((product: Product) => product.getId === this.productService.product.getId)
 
-    }
+        this.productService.putProduct(this.productService.product, this.selectedImage).subscribe({
+          next: (res: any) => {
+            this.presentToast('middle', 'Le produit a été mis à jour', 800)
+            this.productService.products.splice(index, 1)
+            const product = Product.deserialize(res)
+            this.productService.products.push(product)
+            this.router.navigateByUrl('VisiteurMenu/Produits')
+          },
+          error: (error: { error: { message: any; }; }) => {
+            this.presentToast('middle', error.error.message, 800)
+          }
+        })
+
+      }
+    })
 
   }
 
@@ -76,14 +83,46 @@ export class ProductComponent {
     });
   }
 
+  async validationToast(position: 'top' | 'middle' | 'bottom', message: string, callback: Function) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: position,
+      buttons: [{
+        text: 'Oui',
+        side: 'end',
+        role: 'action'
+      },
+      {
+        text: 'Non',
+        side: 'end',
+        role: 'cancel'
+      }]
+    });
+
+    await toast.present()
+    await toast.onDidDismiss().then((value) => {
+      if  (value.role === 'action') {
+        callback()
+      }
+    })
+
+  }
+
   cancel = () => {
 
-    this.router.navigateByUrl('VisiteurMenu/Produits')
+    this.validationToast('middle', 'Voulez vous réellement abandonner la mise à jour de ce produit ?', () => {
+      this.router.navigateByUrl('VisiteurMenu/Produits')
+    })
 
   }
 
   onChangeBrand = (event: Event) => {
     this.productService.product.setBrand = new Brand(parseInt((event as InputCustomEvent).detail.value!), '', '')
+    this.refresh()
+  }
+
+  onChangeType = (event: Event) => {
+    this.productService.product.setType = parseInt((event as InputCustomEvent).detail.value!)
     this.refresh()
   }
 
@@ -133,6 +172,10 @@ export class ProductComponent {
   
   get getBrands() {
     return this.brandService.brands
+  }
+  
+  get getType() {
+    return ProductType[this.getProduct.getType]
   }
   
 }
