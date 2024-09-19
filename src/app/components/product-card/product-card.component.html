@@ -3,11 +3,13 @@
     <div class="card-header">
       <ion-card-title>{{ productCard.getBrand.getName }} {{ getType }}</ion-card-title>
       <div *ngIf="displayIcon === 'cache'" class="div-icon">
-        <ion-icon name="refresh-outline"
+        <ion-icon
           *isadmin="getRole"
-          [ngClass]="isUpdated ? '' : 'cache'"
           slot="end"
-          (click)="reinitProduct();$event.stopPropagation()"
+          name="create-outline"
+          alt="Modifier"
+          title="Modifier"
+          (click)="updateProduct();$event.stopPropagation()"
         ></ion-icon>
         <ion-icon
           *isadmin="getRole"

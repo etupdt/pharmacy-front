@@ -22,6 +22,7 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   @Input() imagePath!: string
   @Output() cardIdSelected: EventEmitter<number> = new EventEmitter();
   @Output() imageSelected: EventEmitter<string> = new EventEmitter();
+  @Output() productToUpdate: EventEmitter<number> = new EventEmitter();
 
   name: string = ''
   description: string = ''
@@ -95,6 +96,11 @@ export class ProductCardComponent  implements OnInit, OnChanges {
   //       this.cardIdSelected.emit(this.productCard.getId)
   //   }
   // }
+
+  updateProduct() {
+    this.productService.product = this.productCard
+    this.productToUpdate.emit(this.productCard.getId)
+  }
 
   reinitProduct = () => {
 

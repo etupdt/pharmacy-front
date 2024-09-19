@@ -62,6 +62,9 @@ export class ProductService {
 
     formData.append('id', product.getId.toString())
     formData.append('productName', product.getProductName)
+    formData.append('brandId', product.getBrand.getId.toString())
+    formData.append('label', product.getLabel)
+    formData.append('type', product.getType.toString())
     formData.append('description', product.getDescription)
     formData.append('price', product.getPrice.toString())
     formData.append('preparationTime', product.getPreparationTime.toString())
@@ -88,6 +91,7 @@ export class ProductService {
     formData.append('productName', product.getProductName)
     formData.append('brandId', product.getBrand.getId.toString())
     formData.append('label', product.getLabel)
+    formData.append('type', product.getType.toString())
     formData.append('description', product.getDescription)
     formData.append('price', product.getPrice.toString())
     formData.append('preparationTime', product.getPreparationTime.toString())
