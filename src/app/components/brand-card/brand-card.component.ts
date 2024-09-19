@@ -116,6 +116,8 @@ export class BrandCardComponent  implements OnInit, OnChanges {
 
     this.validationToast('middle', 'Voulez vous abandonner les modifications effectuées sur cette marque ?', () => {
       this.reinitBrand()
+      this.isUpdated = false
+      this.cardIdSelected.emit(-1)
     })
     
   }
@@ -126,7 +128,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
     this.imagePath = this.brandCard.getImagePath
     this.setImageToDisplay = this.brandCard.getImagePath
 
-    this.checkIsUpdated()
+    this.imageUpdating = false
 
   }
 
@@ -210,7 +212,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
 
     if (image === "") {
 
-      this.cardIdSelected.emit(-1)
+      this.imageUpdating = false
 
     } else {
 
@@ -226,7 +228,7 @@ export class BrandCardComponent  implements OnInit, OnChanges {
         }
       }
 
-      this.checkIsUpdated()
+      this.isUpdated = true
 
     }
   }
