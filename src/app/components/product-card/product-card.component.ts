@@ -116,20 +116,24 @@ export class ProductCardComponent  implements OnInit, OnChanges {
 
   deleteProduct = () => {
 
-    const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
+    this.validationToast('middle', 'Voulez vous définitivement supprimer ce produit ?', () => {
 
-    if (this.productCard.getId === 0) {
-      this.deleteInList(index)
-      return
-    }
-
-    this.productService.deleteProduct(this.productCard.getId).subscribe({
-      next: (res: any) => {
-        this.presentToast('middle', 'La prestation a été suprimée', 800)
+      const index = this.productService.products.findIndex(product => product.getId === this.productCard.getId)
+  
+      if (this.productCard.getId === 0) {
         this.deleteInList(index)
-      },
-        error: (error: { error: { message: any; }; }) => {
+        return
       }
+  
+      this.productService.deleteProduct(this.productCard.getId).subscribe({
+        next: (res: any) => {
+          this.presentToast('middle', 'La prestation a été suprimée', 800)
+          this.deleteInList(index)
+        },
+          error: (error: { error: { message: any; }; }) => {
+        }
+      })
+
     })
 
   }
@@ -148,6 +152,31 @@ export class ProductCardComponent  implements OnInit, OnChanges {
     });
 
     await toast.present();
+  }
+
+  async validationToast(position: 'top' | 'middle' | 'bottom', message: string, callback: Function) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: position,
+      buttons: [{
+        text: 'Oui',
+        side: 'end',
+        role: 'action'
+      },
+      {
+        text: 'Non',
+        side: 'end',
+        role: 'cancel'
+      }]
+    });
+
+    await toast.present()
+    await toast.onDidDismiss().then((value) => {
+      if  (value.role === 'action') {
+        callback()
+      }
+    })
+
   }
 
   checkIsUpdated = () => {
